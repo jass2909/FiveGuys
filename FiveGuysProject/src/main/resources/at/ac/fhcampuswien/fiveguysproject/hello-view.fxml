@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Circle?>
+
+<?import javafx.scene.control.Button?>
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <!-- Add a StackPane to contain the player circle -->
+    <StackPane>
+        <Circle fx:id="player" radius="10" fill="WHITE"/>
+    </StackPane>
+
+    <!-- Add a Pane for stars with fx:id "starPane" -->
+    <StackPane>
+        <Pane fx:id="starPane" prefWidth="800" prefHeight="748" />
+    </StackPane>
+
+    <StackPane>
+        <Pane fx:id="enemyPane" />
+    </StackPane>
+
+    <StackPane>
+        <Pane fx:id="projectilePane"   />
+    </StackPane>
+
+    <StackPane>
+        <Pane fx:id="redCirclesPane" />
+    </StackPane>
+
+</VBox>
