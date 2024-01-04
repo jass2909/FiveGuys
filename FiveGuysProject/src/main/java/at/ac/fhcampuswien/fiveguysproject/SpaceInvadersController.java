@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -13,6 +14,7 @@ import javafx.util.Duration;
 import java.util.*;
 
 public class SpaceInvadersController implements GameController {
+
     private Map<Integer, Enemy> enemiesMap = new HashMap<>();
 
     public void addEnemy(Enemy enemy){
@@ -25,8 +27,12 @@ public class SpaceInvadersController implements GameController {
     }
 
     @FXML
-    public Pane starPane;
+    private Button startButton;
+
+    @FXML
+    private Pane starPane;
     private MapController mapController;
+
 
     @FXML
     private Circle player;
@@ -42,7 +48,7 @@ public class SpaceInvadersController implements GameController {
     private double playerX = 0;
     private double leftBorder = -380;
     private double rightBorder = 380;
-    private double playerY = 650;
+    private double playerY = 300;
     // Adjustable fire rate (projectiles per second)
     private double fireRate = 5; // Two projectiles per second
     private double timeBetweenShots = 1 / fireRate;
@@ -50,7 +56,13 @@ public class SpaceInvadersController implements GameController {
 
     @FXML
     public void initialize() {
+        startButton.setStyle("-fx-background-color: lightblue;");
+        mapController = new MapController(starPane);
 
+    }
+    public void startGame(){
+        startButton.setDisable(true);
+        startButton.setVisible(false);
         player.setTranslateX(playerX);
         player.setTranslateY(playerY);
 
@@ -69,13 +81,11 @@ public class SpaceInvadersController implements GameController {
         borderCheck.play();
 
         spawnEnemiesAtInterval();
-        
+
         projectileTimeline = new Timeline();
         Timeline shootingTimeline = new Timeline(new KeyFrame(Duration.seconds(timeBetweenShots), e -> shoot()));
         shootingTimeline.setCycleCount(Timeline.INDEFINITE);
         shootingTimeline.play();
-
-        mapController = new MapController(starPane);
 
     }
 

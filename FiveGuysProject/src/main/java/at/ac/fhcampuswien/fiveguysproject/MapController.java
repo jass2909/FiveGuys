@@ -37,7 +37,7 @@ public class MapController {
         starsTimeline.setCycleCount(Timeline.INDEFINITE);
         starsTimeline.play();
         for (int i = 0; i < 100; i++) {
-            Circle star = new Circle(1, javafx.scene.paint.Color.WHITE);
+            Circle star = new Circle(1, Color.WHITE);
             star.setTranslateX(random.nextDouble() * starPane.getPrefWidth());
             star.setTranslateY(random.nextDouble() * starPane.getPrefHeight());
             starPane.getChildren().add(star);

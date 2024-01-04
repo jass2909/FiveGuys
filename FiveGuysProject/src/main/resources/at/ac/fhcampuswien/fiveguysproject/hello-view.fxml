@@ -9,32 +9,40 @@
 <?import javafx.scene.shape.Circle?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<VBox alignment="CENTER"  xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
 
-    <!-- Add a StackPane to contain the player circle -->
-    <StackPane>
-        <Circle fx:id="player" radius="10" fill="WHITE"/>
-    </StackPane>
 
-    <!-- Add a Pane for stars with fx:id "starPane" -->
-    <StackPane>
+    <StackPane style="-fx-background-color: black" minHeight="748" minWidth="800">
+
         <Pane fx:id="starPane" prefWidth="800" prefHeight="748" />
+        <StackPane>
+        </StackPane>
+        <StackPane>
+
+        </StackPane>
+        <Circle fx:id="player" radius="10" fill="WHITE"/>
+
+
+
+
+
+    </StackPane>
+    <StackPane prefWidth="0" prefHeight="0" style="-fx-background-color: blue">
+        <Pane style="-fx-background-color: blue" fx:id="enemyPane" />
+        <Pane style="-fx-background-color: blue" fx:id="projectilePane" />
+        <StackPane prefWidth="0" prefHeight="0" style="-fx-background-color: black" >
+            <Button  translateY="-100" fx:id="startButton" text="Start Game" onAction="#startGame" StackPane.alignment="TOP_CENTER"/>
+
+        </StackPane>
     </StackPane>
 
-    <StackPane>
-        <Pane fx:id="enemyPane" />
-    </StackPane>
 
-    <StackPane>
-        <Pane fx:id="projectilePane"   />
-    </StackPane>
 
-    <StackPane>
-        <Pane fx:id="redCirclesPane" />
-    </StackPane>
+
+
+
+
+
 
 </VBox>

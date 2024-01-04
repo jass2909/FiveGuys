@@ -11,8 +11,8 @@ public class Projectile extends Circle {
 
     public Projectile(double x, double y) {
         super(PROJECTILE_RADIUS, PROJECTILE_COLOR);
-        setTranslateX(x);
-        setTranslateY(y);
+        setTranslateX(x + 20);
+        setTranslateY(y + 300);
     }
 
     public void move() {

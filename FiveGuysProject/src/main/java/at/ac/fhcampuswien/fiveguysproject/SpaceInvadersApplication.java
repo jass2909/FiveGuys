@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.fiveguysproject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -16,12 +17,13 @@ public class SpaceInvadersApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(SpaceInvadersApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 748, Color.BLACK);
 
+
         SpaceInvadersController spaceInvadersController = fxmlLoader.getController();
         
         scene.setOnKeyPressed(spaceInvadersController);
 
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
     }
 
