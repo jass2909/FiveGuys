@@ -62,7 +62,7 @@ public class SpaceInvadersController implements GameController {
     // Adjustable fire rate (projectiles per second)
     private double fireRate = 5; // Two projectiles per second
     private double timeBetweenShots = 1 / fireRate;
-    private boolean gamePaused = false;
+    public static boolean gamePaused = false;
     private at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController SpaceInvadersController;
 
     @FXML
@@ -139,17 +139,20 @@ public class SpaceInvadersController implements GameController {
     }
 
     public void shoot() {
-        Projectile projectile = new Projectile(player.getTranslateX() + 380, player.getTranslateY() - 715);
-        projectilePane.getChildren().add(projectile);
+        if (!gamePaused){
+            Projectile projectile = new Projectile(player.getTranslateX() + 380, player.getTranslateY() - 715);
+            projectilePane.getChildren().add(projectile);
 
-        Timeline projectileTimeline = new Timeline(
-                new KeyFrame(Duration.millis(16), e -> {
-                    projectile.move();
-                    checkCollision(projectile);
-                })
-        );
-        projectileTimeline.setCycleCount(Timeline.INDEFINITE);
-        projectileTimeline.play();
+            Timeline projectileTimeline = new Timeline(
+                    new KeyFrame(Duration.millis(16), e -> {
+                        projectile.move();
+                        checkCollision(projectile);
+                    })
+            );
+            projectileTimeline.setCycleCount(Timeline.INDEFINITE);
+            projectileTimeline.play();
+        }
+
     }
     public void pauseGame() {
         if (gamePaused) {
@@ -213,26 +216,30 @@ public class SpaceInvadersController implements GameController {
     }
 
     private void spawnSingleEnemy(double startY) {
-        if (enemyCount<enemyLimit){
-            Random random = new Random();
-            double randomX;  // Random x coordinate within the range [-380, 380]
 
-            double minDistance = 10.0;
+        if (!gamePaused){
+            if (enemyCount<enemyLimit){
+                Random random = new Random();
+                double randomX;  // Random x coordinate within the range [-380, 380]
 
-            do {
-                randomX = random.nextDouble() * (380 * 2) - 0;
-            } while (!isDistanceSafe(randomX, startY, minDistance));
+                double minDistance = 10.0;
 
-            Enemy enemy = new Enemy(randomX, startY);
-            addEnemy(enemy);
-            enemyPane.getChildren().add(enemy);
-            enemyCount++;
-            System.out.println(enemyCount);
-        } else if (enemyLimit == enemyCount) {
-            System.out.println("Enemy limit reached");
+                do {
+                    randomX = random.nextDouble() * (380 * 2) - 0;
+                } while (!isDistanceSafe(randomX, startY, minDistance));
+
+                Enemy enemy = new Enemy(randomX, startY);
+                addEnemy(enemy);
+                enemyPane.getChildren().add(enemy);
+                enemyCount++;
+                System.out.println(enemyCount);
+            } else if (enemyLimit == enemyCount) {
+                System.out.println("Enemy limit reached");
 
 
+            }
         }
+
 
     }
     private boolean isDistanceSafe(double x, double y, double minDistance) {

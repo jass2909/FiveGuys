@@ -21,7 +21,7 @@
         <StackPane>
 
         </StackPane>
-        <ImageView opacity="0"  fitHeight="100" fitWidth="100" fx:id="player">
+        <ImageView opacity="0"  fitHeight="150" fitWidth="150" fx:id="player">
             <Image   url="@/player.png"/>
         </ImageView>
 

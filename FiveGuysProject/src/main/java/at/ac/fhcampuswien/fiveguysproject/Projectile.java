@@ -4,6 +4,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import static at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController.gamePaused;
+
 public class Projectile extends Circle {
     private static final int PROJECTILE_RADIUS = 5;
     private static final Color PROJECTILE_COLOR = Color.BLUE;
@@ -16,7 +18,11 @@ public class Projectile extends Circle {
     }
 
     public void move() {
-        setTranslateY(getTranslateY() - PROJECTILE_SPEED);
+        if (gamePaused){
+            return;
+
+        } else setTranslateY(getTranslateY() - PROJECTILE_SPEED);
+
     }
         // Existing code...
 

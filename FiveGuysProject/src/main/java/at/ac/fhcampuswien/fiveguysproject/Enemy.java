@@ -5,11 +5,14 @@ import javafx.scene.shape.Circle;
 import java.util.ArrayList;
 import java.util.List;
 
+import static at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController.gamePaused;
+
 public class Enemy extends Circle {
 
     private static final int INITIAL_LIFE = 3;
     private static int enemyCount = 0;
     private int id;
+;
 
 
     public Enemy(double x, double y) {
@@ -28,7 +31,11 @@ public class Enemy extends Circle {
     }
 
     public void move(double speed) {
-        setTranslateY(getTranslateY() + speed);
+        if (gamePaused) {
+            return;
+        } else {
+            setTranslateY(getTranslateY() + speed);
+        }
     }
 
 
