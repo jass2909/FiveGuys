@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <?import javafx.scene.control.Button?>
 <VBox alignment="CENTER"  xmlns:fx="http://javafx.com/fxml"
@@ -21,18 +21,26 @@
         <StackPane>
 
         </StackPane>
-        <Circle fx:id="player" radius="10" fill="WHITE"/>
+        <ImageView opacity="0"  fitHeight="100" fitWidth="100" fx:id="player">
+            <Image   url="@/player.png"/>
+        </ImageView>
 
 
 
 
 
     </StackPane>
-    <StackPane prefWidth="0" prefHeight="0" style="-fx-background-color: blue">
+    <StackPane prefWidth="0" prefHeight="0" >
         <Pane style="-fx-background-color: blue" fx:id="enemyPane" />
         <Pane style="-fx-background-color: blue" fx:id="projectilePane" />
         <StackPane prefWidth="0" prefHeight="0" style="-fx-background-color: black" >
             <Button  translateY="-100" fx:id="startButton" text="Start Game" onAction="#startGame" StackPane.alignment="TOP_CENTER"/>
+            <Button translateY="-700" translateX="-20" fx:id="pauseButton" onAction="#pauseGame" StackPane.alignment="BOTTOM_RIGHT">
+                <graphic>
+                    <ImageView  fx:id="pauseButtonImage" fitHeight="30" fitWidth="30" preserveRatio="true"/>
+                </graphic>
+            </Button>
+
 
         </StackPane>
     </StackPane>

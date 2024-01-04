@@ -6,14 +6,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import javafx.scene.image.ImageView;
 
 import java.util.*;
 
 public class SpaceInvadersController implements GameController {
+
+    public ImageView player;
 
     private Map<Integer, Enemy> enemiesMap = new HashMap<>();
 
@@ -28,17 +32,23 @@ public class SpaceInvadersController implements GameController {
 
     @FXML
     private Button startButton;
+    public Button pauseButton;
+
 
     @FXML
     private Pane starPane;
     private MapController mapController;
 
 
+
     @FXML
-    private Circle player;
+    
     public Pane enemyPane;
     public Pane projectilePane;
     private Timeline projectileTimeline;
+    private ImageView playerImageView;
+    @FXML
+    private ImageView pauseButtonImage;
 
 
     private Timeline timeline;
@@ -52,19 +62,39 @@ public class SpaceInvadersController implements GameController {
     // Adjustable fire rate (projectiles per second)
     private double fireRate = 5; // Two projectiles per second
     private double timeBetweenShots = 1 / fireRate;
+    private boolean gamePaused = false;
     private at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController SpaceInvadersController;
 
     @FXML
     public void initialize() {
         startButton.setStyle("-fx-background-color: lightblue;");
+
+        loadImages();
         mapController = new MapController(starPane);
+        initializeTimeline();
+
 
     }
+
+    private void loadImages() {
+        Image playImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/play.png")));
+        Image pauseImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png")));
+        pauseButtonImage.setImage(playImage); // Set the initial state to play
+        pauseButtonImage.setOnMouseClicked(event -> pauseGame());
+    }
+    private void initializeTimeline() {
+        timeline = new Timeline(new KeyFrame(Duration.millis(16), this::update));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+    }
+
+
     public void startGame(){
         startButton.setDisable(true);
         startButton.setVisible(false);
+
         player.setTranslateX(playerX);
         player.setTranslateY(playerY);
+        player.setOpacity(1);
 
 
         timeline = new Timeline(new KeyFrame(Duration.millis(16), this::update));
@@ -88,6 +118,8 @@ public class SpaceInvadersController implements GameController {
         shootingTimeline.play();
 
     }
+
+
 
     private void update(ActionEvent actionEvent) {
     }
@@ -118,6 +150,24 @@ public class SpaceInvadersController implements GameController {
         );
         projectileTimeline.setCycleCount(Timeline.INDEFINITE);
         projectileTimeline.play();
+    }
+    public void pauseGame() {
+        if (gamePaused) {
+            resumeGame();
+            gamePaused = false;
+
+        } else {
+
+            pauseButtonImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/play.png"))));
+            timeline.pause();
+            gamePaused = true;
+        }
+    }
+    private void resumeGame() {
+        pauseButtonImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png"))));
+        timeline.play();
+        projectileTimeline.play();
+
     }
 
     public void checkCollision(Projectile projectile) {
