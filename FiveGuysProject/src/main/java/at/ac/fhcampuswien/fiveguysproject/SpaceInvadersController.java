@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
 
@@ -42,7 +41,7 @@ public class SpaceInvadersController implements GameController {
 
 
     @FXML
-    
+
     public Pane enemyPane;
     public Pane projectilePane;
     private Timeline projectileTimeline;
@@ -53,11 +52,12 @@ public class SpaceInvadersController implements GameController {
 
     private Timeline timeline;
     public static int enemyCount = 0;
-    private int enemyLimit = 50;
+    private int enemyLimit = 10;
+    public static int level = 1;
 
     private double playerX = 0;
     private double leftBorder = -380;
-    private double rightBorder = 380;
+    private double rightBorder = 410;
     private double playerY = 300;
     // Adjustable fire rate (projectiles per second)
     private double fireRate = 5; // Two projectiles per second
@@ -79,7 +79,7 @@ public class SpaceInvadersController implements GameController {
     private void loadImages() {
         Image playImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/play.png")));
         Image pauseImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png")));
-        pauseButtonImage.setImage(playImage); // Set the initial state to play
+        pauseButtonImage.setImage(pauseImage); // Set the initial state to play
         pauseButtonImage.setOnMouseClicked(event -> pauseGame());
     }
     private void initializeTimeline() {
@@ -195,12 +195,20 @@ public class SpaceInvadersController implements GameController {
     public void handle(KeyEvent event) {
         switch (event.getCode()) {
             case A:
-                moveLeft();
-                break;
-
+                if (!gamePaused){
+                    moveLeft();
+                    break;
+                }
             case D:
-                moveRight();
-                break;
+                if (!gamePaused){
+
+                    moveRight();
+                    break;
+                }
+            case S:
+                if (!gamePaused){
+                    timeline.pause();
+                }
         }
     }
     private void moveLeft() {
@@ -218,25 +226,43 @@ public class SpaceInvadersController implements GameController {
     private void spawnSingleEnemy(double startY) {
 
         if (!gamePaused){
-            if (enemyCount<enemyLimit){
-                Random random = new Random();
-                double randomX;  // Random x coordinate within the range [-380, 380]
+            if (level == 1){
+                if (enemyCount<enemyLimit){
+                    Random random = new Random();
+                    double randomX;  // Random x coordinate within the range [-380, 380]
 
-                double minDistance = 10.0;
+                    double minDistance = 10.0;
 
-                do {
-                    randomX = random.nextDouble() * (380 * 2) - 0;
-                } while (!isDistanceSafe(randomX, startY, minDistance));
+                    do {
+                        randomX = random.nextDouble() * (350 * 2) - 0;
+                    } while (!isDistanceSafe(randomX, startY, minDistance));
 
-                Enemy enemy = new Enemy(randomX, startY);
-                addEnemy(enemy);
-                enemyPane.getChildren().add(enemy);
-                enemyCount++;
-                System.out.println(enemyCount);
-            } else if (enemyLimit == enemyCount) {
-                System.out.println("Enemy limit reached");
+                    Enemy enemy = new Enemy(randomX, startY);
+                    addEnemy(enemy);
+                    enemyPane.getChildren().add(enemy);
+                    enemyCount++;
+                    System.out.println(enemyCount);
+            } else {
+                    enemyCount = 0;
+                    level = 2;
+                }
+            }}
+            if (level==2){
+                if (enemyCount<enemyLimit){
+                    Random random = new Random();
+                    double randomX;  // Random x coordinate within the range [-380, 380]
 
+                    double minDistance = 10.0;
 
+                    do {
+                        randomX = random.nextDouble() * (350 * 2) - 0;
+                    } while (!isDistanceSafe(randomX, startY, minDistance));
+
+                    Enemy enemy = new Enemy(randomX, startY);
+                    addEnemy(enemy);
+                    enemyPane.getChildren().add(enemy);
+                    enemyCount++;
+                    System.out.println(enemyCount);
             }
         }
 
@@ -267,6 +293,22 @@ public class SpaceInvadersController implements GameController {
         );
         spawnTimeline.setCycleCount(Timeline.INDEFINITE);
         spawnTimeline.play();
+
+        spawnTimeline.setOnFinished(event -> {
+            if (level == 2) {
+                // Pause enemy spawning for 5 seconds
+                pauseEnemySpawning();
+            }
+        });
+    }
+    private void pauseEnemySpawning() {
+        Timeline pauseTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(10), e -> {
+                    // Resume enemy spawning after the pause
+                    spawnEnemiesAtInterval();
+                })
+        );
+        pauseTimeline.play();
     }
     private void moveEnemies(ActionEvent event) {
         Random random = new Random();
