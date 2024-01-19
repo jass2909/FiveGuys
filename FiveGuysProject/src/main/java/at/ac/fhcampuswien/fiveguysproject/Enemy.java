@@ -3,22 +3,28 @@ package at.ac.fhcampuswien.fiveguysproject;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import static at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController.gamePaused;
 import static at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController.level;
 
+
+/**
+ * Enemy Klasse zur Erstellung der Gegner. Handhabung von Kollisionen und Erstellen von Feind-Objekten.
+ */
 public class Enemy extends ImageView {
 
     private static final int INITIAL_LIFE = 3;
     private static int enemyCount = 0;
     private int id;
 
+    /**
+     * neues Feind Objekt initialisiert.
+     *
+     * @param x Bewegung x-Achse
+     * @param y Bewegung y-Achse
+     */
     public Enemy(double x, double y) {
         super(getEnemyImageImage());
         setFitWidth(50);
@@ -29,6 +35,11 @@ public class Enemy extends ImageView {
         id = enemyCount++;
     }
 
+    /**
+     * Liefert das Bild des Feinder ab. Dieses ist abhängig vom aktuellen Level.
+     *
+     * @return Das Image-Objekt des Feindes.
+     */
     private static Image getEnemyImageImage() {
         if (level == 1) {
             InputStream inputStream = ClassLoader.getSystemResourceAsStream("Python.png");
@@ -41,10 +52,17 @@ public class Enemy extends ImageView {
         return null;
     }
 
+    /**
+     * Methode zum erkennen der Gegner. Jeder Gegener hat eine eigene Zahl zugeorndet bekommen.
+     */
     public int getEnemyId() {
         return id;
     }
 
+    /**
+     * Bewegt den Feind um die angegebene Geschwindigkeit nach unten, wenn das Spiel nicht pausiert ist.
+     * speed ist die Geschw. mit der der Feind sich bewegt.
+     */
     public void move(double speed) {
         if (gamePaused) {
             return;
@@ -53,6 +71,13 @@ public class Enemy extends ImageView {
         }
     }
 
+    /**
+     * Handhabung der Kollisionen mit Feinden. Reduzierung der Lebenspkt. und Entfernung bei Bedarf.
+     *
+     * @param projectile     Das Projekttill mit dem der Feind kolidiert.
+     * @param enemyPane      Die Ansicht, die den Feind enthält.
+     * @param projectilePane Die Ansicht, die das Projektil enthält.
+     */
     public void handleCollision(Projectile projectile, Pane enemyPane, Pane projectilePane) {
         int currentLife = (int) getUserData();
         SpaceInvadersController.decreaseEnemyCount();
@@ -64,16 +89,5 @@ public class Enemy extends ImageView {
         }
         projectilePane.getChildren().remove(projectile);
         setTranslateX(getTranslateX() + 1000);
-    }
-
-    public static List<Enemy> createEnemyRow(double startX, double startY, int count) {
-        List<Enemy> enemies = new ArrayList<>();
-
-        for (int col = 0; col < count; col++) {
-            Enemy enemy = new Enemy(startX + col * 50, startY);
-            enemies.add(enemy);
-        }
-
-        return enemies;
     }
 }

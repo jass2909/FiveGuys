@@ -7,17 +7,30 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+
 import java.util.Random;
 
+/**
+ * Die MapController-Klasse steuert die Hintergrundanimation der Sterne im Spiel.
+ */
 public class MapController {
     @FXML
     private Pane starPane;
 
+    /**
+    Konstruktor für die MapController-Klasse. Initialisiert einen neuen MapController
+    mit dem übergebenen Pane für Sterne und initialisiert die Sterne.
+
+    @param starPane Das Pane, in dem die Sterne angezeigt werden sollen.
+     */
     public MapController(Pane starPane) {
         this.starPane = starPane;
         initializeStars();
     }
-
+    /**
+     * Bewegt die Sterne nach unten und setzt ihre Position am oberen Rand des Panes zurück,
+     * wenn sie den unteren Rand erreicht haben.
+     */
     private void moveStars() {
         Random random = new Random();
         for (var node : starPane.getChildren()) {
@@ -28,6 +41,9 @@ public class MapController {
         }
     }
 
+    /**
+     * Initialisiert die Sterne im Pane und startet die Hintergrundanimation mit einer Timeline.
+     */
     private void initializeStars() {
         Random random = new Random();
         Timeline starsTimeline = new Timeline(new KeyFrame(Duration.millis(50), e -> moveStars()));
