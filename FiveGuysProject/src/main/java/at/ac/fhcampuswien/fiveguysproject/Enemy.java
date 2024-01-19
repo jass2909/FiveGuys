@@ -13,6 +13,7 @@ import static at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController.level;
 /**
  * Enemy Klasse zur Erstellung der Gegner. Handhabung von Kollisionen und Erstellen von Feind-Objekten.
  */
+
 public class Enemy extends ImageView {
 
     private static final int INITIAL_LIFE = 3;

@@ -3,6 +3,8 @@ package at.ac.fhcampuswien.fiveguysproject;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.io.InputStream;
 
@@ -54,7 +56,7 @@ public class Projectile extends ImageView {
      * Bewegt das Projektil nach oben, wenn das Spiel nicht pausiert ist.
      */
     public void move() {
-        if (gamePaused) {
+        if (gamePaused){
             return;
 
         } else setTranslateY(getTranslateY() - PROJECTILE_SPEED);
@@ -72,9 +74,10 @@ public class Projectile extends ImageView {
     public boolean checkCollision(Enemy enemy, Pane projectilePane) {
         if (getBoundsInParent().intersects(enemy.getBoundsInParent())) {
             projectilePane.getChildren().remove(this);
-            setTranslateX(getTranslateX() + 1000);  // Verschiebt das Projektil außerhalb der Ansicht.
-            return true;    // Kollision erfolgt
+            setTranslateX(getTranslateX()+1000); // Verschiebt das Projektil außerhalb der Ansicht.
+            return true;// Kollision erfolgt
+
         }
-        return false;   // Keine Kollision
+        return false; // Keine Kollision
     }
 }

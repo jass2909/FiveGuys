@@ -1,0 +1,8 @@
+.custom-button {
+    -fx-background-color: yellow;
+    -fx-text-fill: rgba(219, 5, 245, 0.82);
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-color: #00a6ff;
+    -fx-border-width: 4;
+}
