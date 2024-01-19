@@ -190,8 +190,8 @@ public class SpaceInvadersController implements GameController {
                 break;
             }
         }
-        enemyPane.getChildren().removeAll(enemiesToRemove);     // Entfernt die getroffenen Feinde aus den Panes und der Map
-        enemiesMap.values().removeAll(enemiesToRemove);
+        enemyPane.getChildren().removeAll(enemiesToRemove);     // Entfernt die getroffenen Feinde aus den Panes
+        enemiesMap.values().removeAll(enemiesToRemove);         // Entfernt die getroffenen Feinde aus der Map
     }
 
 
