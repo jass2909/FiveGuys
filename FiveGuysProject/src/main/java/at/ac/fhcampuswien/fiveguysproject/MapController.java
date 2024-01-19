@@ -10,9 +10,6 @@ import javafx.util.Duration;
 import java.util.Random;
 
 public class MapController {
-
-
-
     @FXML
     private Pane starPane;
 

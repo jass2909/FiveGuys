@@ -22,6 +22,7 @@ public class Projectile extends ImageView {
         setTranslateX(x - 5);
         setTranslateY(y + 240);
     }
+
     private static Image getProjectileImage() {
         try {
             InputStream inputStream = ClassLoader.getSystemResourceAsStream("Projectile.png");
@@ -42,7 +43,6 @@ public class Projectile extends ImageView {
         } else setTranslateY(getTranslateY() - PROJECTILE_SPEED);
 
     }
-        // Existing code...
 
     public boolean checkCollision(Enemy enemy, Pane projectilePane) {
         if (getBoundsInParent().intersects(enemy.getBoundsInParent())) {

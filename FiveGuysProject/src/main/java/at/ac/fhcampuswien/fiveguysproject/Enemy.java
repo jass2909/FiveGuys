@@ -27,8 +27,8 @@ public class Enemy extends ImageView {
         setTranslateY(y);
         setUserData(INITIAL_LIFE);
         id = enemyCount++;
-
     }
+
     private static Image getEnemyImageImage() {
         if (level == 1) {
             InputStream inputStream = ClassLoader.getSystemResourceAsStream("Python.png");
@@ -40,8 +40,6 @@ public class Enemy extends ImageView {
 
         return null;
     }
-
-
 
     public int getEnemyId() {
         return id;
