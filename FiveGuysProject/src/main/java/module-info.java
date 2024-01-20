@@ -6,6 +6,7 @@ module at.ac.fhcampuswien.fiveguysproject {
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
     requires com.almasb.fxgl.all;
+    requires javafx.media;
 
     opens at.ac.fhcampuswien.fiveguysproject to javafx.fxml;
     exports at.ac.fhcampuswien.fiveguysproject;

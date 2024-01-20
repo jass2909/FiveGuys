@@ -18,10 +18,10 @@ public class MapController {
     private Pane starPane;
 
     /**
-    Konstruktor für die MapController-Klasse. Initialisiert einen neuen MapController
-    mit dem übergebenen Pane für Sterne und initialisiert die Sterne.
+     Konstruktor für die MapController-Klasse. Initialisiert einen neuen MapController
+     mit dem übergebenen Pane für Sterne und initialisiert die Sterne.
 
-    @param starPane Das Pane, in dem die Sterne angezeigt werden sollen.
+     @param starPane Das Pane, in dem die Sterne angezeigt werden sollen.
      */
     public MapController(Pane starPane) {
         this.starPane = starPane;

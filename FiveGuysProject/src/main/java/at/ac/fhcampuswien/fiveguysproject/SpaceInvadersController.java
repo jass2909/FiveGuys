@@ -56,6 +56,7 @@ public class SpaceInvadersController implements GameController {
     public static boolean gamePaused = false;
     private int score = 0;
     @FXML
+    private Button restartButton;
     private Label scoreLabel;
 
 
@@ -67,11 +68,12 @@ public class SpaceInvadersController implements GameController {
      */
     @FXML
     public void initialize() {
-        startButton.setStyle("-fx-background-color: lightblue;");
+
 
         loadImages();
         mapController = new MapController(starPane);
         initializeTimeline();
+        startGame();
     }
 
     /**
@@ -102,8 +104,7 @@ public class SpaceInvadersController implements GameController {
      * Timelineinitialisierung der Projektile
      */
     public void startGame() {
-        startButton.setDisable(true);
-        startButton.setVisible(false);
+
 
         player.setTranslateX(playerX);
         player.setTranslateY(playerY);

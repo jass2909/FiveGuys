@@ -7,8 +7,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
 <VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController">
 
@@ -23,19 +21,13 @@
             <Image url="@/player.png"/>
         </ImageView>
 
-        <!-- Hier wird das Label für den Score hinzugefügt -->
-        <HBox alignment="TOP_LEFT" translateY="20" translateX="10">
-            <Label fx:id="scoreLabel" text="Score: 0" style="-fx-text-fill: white; -fx-font-size: 20;"/>
-        </HBox>
-
     </StackPane>
     <StackPane prefWidth="0" prefHeight="0">
         <Pane style="-fx-background-color: blue" fx:id="enemyPane"/>
         <Pane style="-fx-background-color: blue" fx:id="projectilePane"/>
 
         <StackPane prefWidth="0" prefHeight="0" style="-fx-background-color: black">
-            <Button translateY="-100" fx:id="startButton" text="Press Enter to Start" onAction="#startGame"
-                    StackPane.alignment="TOP_CENTER"/>
+
             <Button translateY="-700" translateX="-20" fx:id="pauseButton" onAction="#pauseGame"
                     StackPane.alignment="BOTTOM_RIGHT">
                 <graphic>
@@ -52,19 +44,5 @@
                 </ImageView>
             </graphic>
         </Button>
-
-        <!-- HBox für die Herzen -->
-        <HBox fx:id="livesContainer" alignment="BOTTOM_RIGHT" translateY="-200" translateX="-100" spacing="5">
-            <ImageView fitHeight="40" fitWidth="40" preserveRatio="true" fx:id="heart3">
-                <Image url="@/heartImage.png"/>
-            </ImageView>
-            <ImageView fitHeight="40" fitWidth="40" preserveRatio="true" fx:id="heart2">
-                <Image url="@/heartImage.png"/>
-            </ImageView>
-            <ImageView fitHeight="40" fitWidth="40" preserveRatio="true" fx:id="heart1">
-                <Image url="@/heartImage.png"/>
-            </ImageView>
-        </HBox>
-
     </StackPane>
 </VBox>

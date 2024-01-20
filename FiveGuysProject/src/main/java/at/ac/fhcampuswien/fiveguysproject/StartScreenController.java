@@ -23,14 +23,12 @@ public class StartScreenController {
     @FXML
     public void initialize() {
         mapController = new MapController(starPane);  // Initialize the MapController
+
     }
 
     @FXML
     public void playGame(ActionEvent event) {
-        // Code to start the game (transition to the game screen)
-        // You can use the code below as a reference:
-        // SpaceInvadersApplication.launch(SpaceInvadersApplication.class);
-        // You might need to adjust this depending on your game setup.
+
         System.out.println("Play Game button clicked");
     }
 
@@ -47,8 +45,7 @@ public class StartScreenController {
     }
 
     public void playGame() {
-        // Add the code here that starts the game
-        // This method can be called when the "Play Game" button is clicked
+
         System.out.println("Starting the game!");
     }
 
