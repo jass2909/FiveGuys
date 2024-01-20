@@ -3,7 +3,10 @@ package at.ac.fhcampuswien.fiveguysproject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -14,10 +17,14 @@ import java.io.IOException;
  * Sie erweitert die JavaFX Application-Klasse und initialisiert das Hauptfenster der Anwendung.
  */
 public class SpaceInvadersApplication extends Application {
+    SoundController soundController = new SoundController("/BgMusic.mp3");
 
     @Override
     public void start(Stage stage) throws Exception {
 
+
+        soundController.playBackgroundMusic();
+        soundController.setBackgroundMusicVolume(0.5);
         FXMLLoader intermediateLoader = new FXMLLoader(getClass().getResource("IntermediateScene.fxml"));
         Scene intermediateScene = new Scene(intermediateLoader.load(), 800, 748, Color.WHITE);
 
@@ -40,27 +47,31 @@ public class SpaceInvadersApplication extends Application {
         startScreenScene.getStylesheets().add(getClass().getResource("css.css").toExternalForm());
 
         StartScreenController startScreenController = startScreenLoader.getController();
-        FXMLLoader fxmlLoader = new FXMLLoader(SpaceInvadersApplication.class.getResource("hello-view.fxml")); // Laden der FXML-Datei für die Benutzeroberfläche
-        Scene gameScene = new Scene(fxmlLoader.load(), 800, 748, Color.BLACK); // Erstellen der Szene mit der geladenen Benutzeroberfläche und Hintergrundfarbe
 
-        SpaceInvadersController spaceInvadersController = fxmlLoader.getController(); // Zugriff auf den SpaceInvadersController, um Tastatureingaben zu behandeln
-        gameScene.setOnKeyPressed(spaceInvadersController); // Setzen des Event Handlers für Tastatureingaben auf die Szene
+
+
+
 
         // Update the event handling to target the playGameButton specifically
         startScreenController.playGameButton.setOnAction(event -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(SpaceInvadersApplication.class.getResource("hello-view.fxml")); // Laden der FXML-Datei für die Benutzeroberfläche
+            Scene gameScene = null; // Erstellen der Szene mit der geladenen Benutzeroberfläche und Hintergrundfarbe
+            try {
+                gameScene = new Scene(fxmlLoader.load(), 800, 748, Color.BLACK);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            SpaceInvadersController spaceInvadersController = fxmlLoader.getController(); // Zugriff auf den SpaceInvadersController, um Tastatureingaben zu behandeln
+            gameScene.setOnKeyPressed(spaceInvadersController); // Setzen des Event Handlers für Tastatureingaben auf die Szene
+
+            soundController.stopBackgroundMusic();
+            soundController.setBackgroundMusic("/GameMusic.mp3");
+            soundController.playBackgroundMusic();
             startScreenController.playGame();
             stage.setScene(gameScene);
+
         });
 
         stage.setScene(startScreenScene);
-    }
 
-    /**
-     * Die main-Methode startet die Anwendung.
-     *
-     * @param args Die Argumente, die von der Befehlszeile übergeben werden (nicht verwendet).
-     */
-    public static void main(String[] args) {
-        launch();
-    }
-}
+    }}
