@@ -167,6 +167,10 @@ public class SpaceInvadersController implements GameController {
 
         // Projektile zurücksetzen
         projectilePane.getChildren().clear();
+
+        // Score zurücksetzen
+        score = 0;
+        updateScoreLabel();
     }
 
     /**
