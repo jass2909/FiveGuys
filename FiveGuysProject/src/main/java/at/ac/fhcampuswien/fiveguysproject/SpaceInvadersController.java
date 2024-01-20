@@ -24,6 +24,7 @@ import java.util.*;
 public class SpaceInvadersController implements GameController {
 
     public ImageView player;
+    public HBox livesContainer;
     private Map<Integer, Enemy> enemiesMap = new HashMap<>(); // Feinde werden in einer Map gespeichert
 
     public void addEnemy(Enemy enemy) {
@@ -56,6 +57,8 @@ public class SpaceInvadersController implements GameController {
     private int score = 0;
     @FXML
     private Label scoreLabel;
+
+
     private at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController SpaceInvadersController;
 
     /**
@@ -167,6 +170,10 @@ public class SpaceInvadersController implements GameController {
 
         // Projektile zurücksetzen
         projectilePane.getChildren().clear();
+
+        // Score zurücksetzen
+        score = 0;
+        update();
     }
 
     /**
@@ -453,12 +460,8 @@ public class SpaceInvadersController implements GameController {
     private void increaseScore(int points) {
         score += points;
         System.out.println("Score: " + score);
-        updateScoreLabel();
+        update();
 
-    }
-    private void updateScoreLabel() {
-        Platform.runLater(() -> scoreLabel.setText("Score: " + score));
-        // Verwende Platform.runLater, um die Aktualisierung auf dem JavaFX-Thread durchzuführen
     }
 
     /**
@@ -467,5 +470,6 @@ public class SpaceInvadersController implements GameController {
     @Override
     public void update() {
         // Platz für Aktualisierungen des Spielzustands
+        Platform.runLater(() -> scoreLabel.setText("Score: " + score));
     }
 }
