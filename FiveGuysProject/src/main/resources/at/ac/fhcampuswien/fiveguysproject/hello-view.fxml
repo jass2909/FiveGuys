@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 
-<?import javafx.scene.control.Button?>
 <VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController">
-
 
     <StackPane style="-fx-background-color: black" minHeight="748" minWidth="800">
 
@@ -18,17 +16,16 @@
         <StackPane>
         </StackPane>
         <StackPane>
-
         </StackPane>
         <ImageView opacity="0" fitHeight="150" fitWidth="150" fx:id="player">
             <Image url="@/player.png"/>
         </ImageView>
 
-
     </StackPane>
     <StackPane prefWidth="0" prefHeight="0">
         <Pane style="-fx-background-color: blue" fx:id="enemyPane"/>
         <Pane style="-fx-background-color: blue" fx:id="projectilePane"/>
+
         <StackPane prefWidth="0" prefHeight="0" style="-fx-background-color: black">
             <Button translateY="-100" fx:id="startButton" text="Start Game" onAction="#startGame"
                     StackPane.alignment="TOP_CENTER"/>
@@ -38,10 +35,15 @@
                     <ImageView fx:id="pauseButtonImage" fitHeight="30" fitWidth="30" preserveRatio="true"/>
                 </graphic>
             </Button>
-
-
         </StackPane>
+        <!-- Restart-Button -->
+        <Button translateY="-650" translateX="-20" fx:id="restartButton" onAction="#restartGame"
+                StackPane.alignment="BOTTOM_RIGHT">
+            <graphic>
+                <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                    <Image url="@/restartButton.jpg"/> <!-- Passe den Pfad zum Restart-Button-Bild an -->
+                </ImageView>
+            </graphic>
+        </Button>
     </StackPane>
-
-
 </VBox>

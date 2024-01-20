@@ -50,6 +50,8 @@ public class SpaceInvadersController implements GameController {
     private double fireRate = 5; // Two projectiles per second
     private double timeBetweenShots = 1 / fireRate;
     public static boolean gamePaused = false;
+    @FXML
+    private Button restartButton;
     private at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController SpaceInvadersController;
 
     /**
@@ -137,8 +139,34 @@ public class SpaceInvadersController implements GameController {
         }
     }
 
+    @FXML
+    private void restartGame(ActionEvent event) {
+
+        playerX = 0;
+        playerY = 300;
+
+        // Timelines zurücksetzen
+        timeline.stop();
+        initializeTimeline();
+        projectileTimeline.stop();
+
+        // Spieler zurücksetzen
+        player.setTranslateX(playerX);
+        player.setTranslateY(playerY);
+        player.setOpacity(1);
+
+        // Feinde zurücksetzen
+        enemiesMap.clear();
+        enemyPane.getChildren().clear();
+        enemyCount = 0;
+        level = 1;
+
+        // Projektile zurücksetzen
+        projectilePane.getChildren().clear();
+    }
+
     /**
-     *Fortsetzung des Spiels.
+     * Fortsetzung des Spiels.
      */
     private void resumeGame() {
         pauseButtonImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png"))));
@@ -290,6 +318,7 @@ public class SpaceInvadersController implements GameController {
             System.out.println("All enemies dead!!");
         }
     }
+
     /**
      * Bewegt die Feinde nach unten mit zufälliger Geschwindigkeit.
      */
@@ -426,4 +455,3 @@ public class SpaceInvadersController implements GameController {
         // Platz für Aktualisierungen des Spielzustands
     }
 }
-
