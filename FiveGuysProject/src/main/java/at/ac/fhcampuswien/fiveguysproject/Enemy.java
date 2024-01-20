@@ -80,14 +80,8 @@ public class Enemy extends ImageView {
      * @param projectilePane Die Ansicht, die das Projektil enthält.
      */
     public void handleCollision(Projectile projectile, Pane enemyPane, Pane projectilePane) {
-        int currentLife = (int) getUserData();
         SpaceInvadersController.decreaseEnemyCount();
 
-        if (currentLife > 1) {
-            currentLife--;
-        } else if (currentLife == 1) {
-            enemyPane.getChildren().remove(this);
-        }
         projectilePane.getChildren().remove(projectile);
         setTranslateX(getTranslateX() + 1000);
     }

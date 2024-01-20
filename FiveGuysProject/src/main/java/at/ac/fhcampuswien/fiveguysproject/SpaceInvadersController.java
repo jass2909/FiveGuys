@@ -5,16 +5,21 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -26,7 +31,7 @@ public class SpaceInvadersController implements GameController {
     public ImageView player;
     public HBox livesContainer;
 
-    private int CurrentHealth = 3;
+
     private Map<Integer, Enemy> enemiesMap = new HashMap<>(); // Feinde werden in einer Map gespeichert
 
     public void addEnemy(Enemy enemy) {
@@ -51,6 +56,7 @@ public class SpaceInvadersController implements GameController {
     private ImageView pauseButtonImage;
     public static int enemyCount = 0;
     private int enemyLimit = 10;
+    private int health = 3;
     public static int level = 1;
     private double playerX = 0;
     private double leftBorder = -380;
@@ -189,9 +195,6 @@ public class SpaceInvadersController implements GameController {
         pauseButtonImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png"))));
         timeline.play();
         projectileTimeline.play();
-        heart1.setOpacity(0);
-
-
     }
 
     /**
@@ -308,26 +311,14 @@ public class SpaceInvadersController implements GameController {
         spawnTimeline.play();
 
         // Pausiert das Feindespawning während des Levelübergangs
-        spawnTimeline.setOnFinished(event -> {
-            if (level == 2) {
-                // Pause enemy spawning for 5 seconds
-                pauseEnemySpawning();
-            }
-        });
+
+        ;
     }
 
     /**
      * Pausiert das Feindespawning für einen bestimmten Zeitraum und setzt es danach fort.
      */
-    private void pauseEnemySpawning() {
-        Timeline pauseTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(10), e -> {
-                    // Resume enemy spawning after the pause
-                    spawnEnemiesAtInterval();
-                })
-        );
-        pauseTimeline.play();
-    }
+
 
     /**
      * Verringert die Anzahl der verbleibenden Feinde und gibt eine Nachricht aus, wenn alle Feinde besiegt sind.
@@ -349,14 +340,45 @@ public class SpaceInvadersController implements GameController {
                 Enemy enemy = (Enemy) node;
                 double speed = random.nextDouble() * 1 + 0.5;
                 enemy.move(speed);
+                if (enemy.getTranslateY() > playerY - 350) {
+                    if (health==3){
+                        heart1.setOpacity(0);
+                        health-=1;
+                    }else if (health==2){
+                        heart2.setOpacity(0);
+                        health-=1;
+                    }else if (health==1){
+                        heart3.setOpacity(0);
+                        health-=1;
+                        //gameOver();
+                    }
+
+
+
+
+                }
 
                 // Setzt den Feind wieder an den Anfang, wenn er das Spielfeld nach unten verlässt
-                if (enemy.getTranslateY() > enemyPane.getPrefHeight()) {
-                    enemy.setTranslateY(0);
-                }
+
             }
         }
     }
+    /*private void gameOver() {
+        // Stop any running timelines or game-related logic
+
+        // Load the game over screen
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
+            Parent gameOverRoot = loader.load();
+            Scene gameOverScene = new Scene(gameOverRoot);
+            Stage primaryStage = (Stage) player.getScene().getWindow(); // Assuming player is a Node in your game
+            primaryStage.setScene(gameOverScene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }/*
+
 
     /**
      * Behandelt Tastatureingaben, insbesondere die Bewegung des Spielers nach links, rechts und das Pausieren des Spiels.
