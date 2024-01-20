@@ -55,8 +55,8 @@ public class SpaceInvadersController implements GameController {
     private double timeBetweenShots = 1 / fireRate;
     public static boolean gamePaused = false;
     private int score = 0;
+
     @FXML
-    private Button restartButton;
     private Label scoreLabel;
 
 
@@ -458,11 +458,11 @@ public class SpaceInvadersController implements GameController {
     private double calculateDistance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
+
     private void increaseScore(int points) {
         score += points;
         System.out.println("Score: " + score);
         update();
-
     }
 
     /**
