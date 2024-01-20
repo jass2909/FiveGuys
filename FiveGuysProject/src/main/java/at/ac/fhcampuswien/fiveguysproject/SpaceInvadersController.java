@@ -191,6 +191,7 @@ public class SpaceInvadersController implements GameController {
         projectileTimeline.play();
         heart1.setOpacity(0);
 
+
     }
 
     /**
