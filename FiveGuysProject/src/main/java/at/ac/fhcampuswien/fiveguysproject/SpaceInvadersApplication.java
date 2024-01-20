@@ -49,9 +49,6 @@ public class SpaceInvadersApplication extends Application {
         StartScreenController startScreenController = startScreenLoader.getController();
 
 
-
-
-
         // Update the event handling to target the playGameButton specifically
         startScreenController.playGameButton.setOnAction(event -> {
             FXMLLoader fxmlLoader = new FXMLLoader(SpaceInvadersApplication.class.getResource("hello-view.fxml")); // Laden der FXML-Datei für die Benutzeroberfläche
@@ -74,4 +71,5 @@ public class SpaceInvadersApplication extends Application {
 
         stage.setScene(startScreenScene);
 
-    }}
+    }
+}

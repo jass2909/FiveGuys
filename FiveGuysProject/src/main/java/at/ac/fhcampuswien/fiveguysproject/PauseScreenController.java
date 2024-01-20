@@ -26,10 +26,6 @@ public class PauseScreenController {
 
     @FXML
     public void resumeGame(ActionEvent event) {
-        // Code to start the game (transition to the game screen)
-        // You can use the code below as a reference:
-        // SpaceInvadersApplication.launch(SpaceInvadersApplication.class);
-        // You might need to adjust this depending on your game setup.
         System.out.println("Play Game button clicked");
     }
 

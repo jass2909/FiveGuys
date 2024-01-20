@@ -13,8 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
@@ -30,7 +32,8 @@ public class SpaceInvadersController implements GameController {
 
     public ImageView player;
     public HBox livesContainer;
-
+    private Stage stage;
+    private Scene gameScreenScene;
 
     private Map<Integer, Enemy> enemiesMap = new HashMap<>(); // Feinde werden in einer Map gespeichert
 
@@ -79,8 +82,6 @@ public class SpaceInvadersController implements GameController {
      */
     @FXML
     public void initialize() {
-
-
         loadImages();
         mapController = new MapController(starPane);
         initializeTimeline();
@@ -178,7 +179,6 @@ public class SpaceInvadersController implements GameController {
         enemiesMap.clear();
         enemyPane.getChildren().clear();
         enemyCount = 0;
-        level = 1;
 
         // Projektile zurücksetzen
         projectilePane.getChildren().clear();
@@ -186,6 +186,9 @@ public class SpaceInvadersController implements GameController {
         // Score zurücksetzen
         score = 0;
         update();
+
+        level = 1;
+
     }
 
     /**
@@ -311,8 +314,6 @@ public class SpaceInvadersController implements GameController {
         spawnTimeline.play();
 
         // Pausiert das Feindespawning während des Levelübergangs
-
-        ;
     }
 
     /**
@@ -341,44 +342,79 @@ public class SpaceInvadersController implements GameController {
                 double speed = random.nextDouble() * 1 + 0.5;
                 enemy.move(speed);
                 if (enemy.getTranslateY() > playerY - 350) {
-                    if (health==3){
+                    if (health == 3) {
                         heart1.setOpacity(0);
-                        health-=1;
-                    }else if (health==2){
+                        health -= 1;
+                    } else if (health == 2) {
                         heart2.setOpacity(0);
-                        health-=1;
-                    }else if (health==1){
+                        health -= 1;
+                    } else if (health == 1) {
                         heart3.setOpacity(0);
-                        health-=1;
-                        //gameOver();
+                        health -= 1;
+                        try {
+                            gameOver((Stage) enemyPane.getScene().getWindow());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
 
 
-
-
                 }
-
-                // Setzt den Feind wieder an den Anfang, wenn er das Spielfeld nach unten verlässt
-
             }
         }
     }
-    /*private void gameOver() {
+
+    public void gameOver(Stage stage) throws IOException {
         // Stop any running timelines or game-related logic
+        timeline.stop();
+        projectileTimeline.stop();
+
 
         // Load the game over screen
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
-            Parent gameOverRoot = loader.load();
-            Scene gameOverScene = new Scene(gameOverRoot);
-            Stage primaryStage = (Stage) player.getScene().getWindow(); // Assuming player is a Node in your game
-            primaryStage.setScene(gameOverScene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }/*
+        FXMLLoader gameOverLoader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
+        GameOverController gameOverController = new GameOverController();  // Assuming you have a GameOverController
+        gameOverLoader.setController(gameOverController);
 
+        Scene gameOverScene = new Scene(gameOverLoader.load(), 800, 748, Color.WHITE);
+
+        gameOverScene.setOnMouseClicked((MouseEvent event) -> {
+            try {
+                loadGameScreen(stage);  // Restart the game when clicked
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        stage.setScene(gameOverScene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    private void loadGameScreen(Stage stage) throws IOException {
+        // Load the game screen (replace this with your actual game screen FXML)
+        restartGame(new ActionEvent());
+
+        FXMLLoader gameScreenLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        Parent gameScreenRoot = gameScreenLoader.load();
+        SpaceInvadersController gameController = gameScreenLoader.getController();
+        gameController.setStage(stage); // Pass the stage to the controller
+        Scene gameScreenScene = new Scene(gameScreenRoot, 800, 748, Color.BLACK);
+        gameScreenScene.setOnKeyPressed(gameController);
+
+        // Set up event handling or any initialization for the game screen if needed
+
+        stage.setScene(gameScreenScene);
+        stage.setResizable(false);
+        stage.show();
+
+        // Start the game or perform any other necessary actions
+        gameController.startGame();
+
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     /**
      * Behandelt Tastatureingaben, insbesondere die Bewegung des Spielers nach links, rechts und das Pausieren des Spiels.
