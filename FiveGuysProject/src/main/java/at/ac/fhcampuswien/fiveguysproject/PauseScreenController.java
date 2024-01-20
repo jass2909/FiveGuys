@@ -9,6 +9,7 @@ public class PauseScreenController {
 
     @FXML
     public Button resumeGameButton;
+    public Button quitButton;
 
     @FXML
     private Button optionsButton;

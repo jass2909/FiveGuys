@@ -53,7 +53,7 @@
         </Button>
 
         <!-- HBox für die Herzen -->
-        <HBox fx:id="livesContainer" alignment="BOTTOM_RIGHT" translateY="-200" translateX="-100" spacing="5">
+        <HBox fx:id="livesContainer" alignment="BOTTOM_RIGHT" translateY="-40" translateX="-30" spacing="5">
             <ImageView fitHeight="40" fitWidth="40" preserveRatio="true" fx:id="heart3">
                 <Image url="@/heartImage.png"/>
             </ImageView>

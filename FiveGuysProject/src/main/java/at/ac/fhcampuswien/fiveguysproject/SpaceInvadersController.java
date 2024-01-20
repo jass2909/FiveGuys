@@ -25,6 +25,8 @@ public class SpaceInvadersController implements GameController {
 
     public ImageView player;
     public HBox livesContainer;
+
+    private int CurrentHealth = 3;
     private Map<Integer, Enemy> enemiesMap = new HashMap<>(); // Feinde werden in einer Map gespeichert
 
     public void addEnemy(Enemy enemy) {
@@ -32,7 +34,10 @@ public class SpaceInvadersController implements GameController {
     }
 
     @FXML
-    private Button startButton;
+    public ImageView heart3;
+    public ImageView heart2;
+    public ImageView heart1;
+
     public Button pauseButton;
     @FXML
     private Pane starPane;// Hintergrund-Sterne
@@ -184,6 +189,7 @@ public class SpaceInvadersController implements GameController {
         pauseButtonImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png"))));
         timeline.play();
         projectileTimeline.play();
+        heart1.setOpacity(0);
 
     }
 
