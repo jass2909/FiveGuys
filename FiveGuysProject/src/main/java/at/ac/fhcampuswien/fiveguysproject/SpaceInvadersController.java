@@ -2,12 +2,15 @@ package at.ac.fhcampuswien.fiveguysproject;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
@@ -50,8 +53,9 @@ public class SpaceInvadersController implements GameController {
     private double fireRate = 5; // Two projectiles per second
     private double timeBetweenShots = 1 / fireRate;
     public static boolean gamePaused = false;
+    private int score = 0;
     @FXML
-    private Button restartButton;
+    private Label scoreLabel;
     private at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController SpaceInvadersController;
 
     /**
@@ -213,8 +217,8 @@ public class SpaceInvadersController implements GameController {
             Enemy enemy = entry.getValue();
             if (projectile.checkCollision(enemy, projectilePane)) {     // Behandelt die Kollision und fügt den Feind zur Entfernungsliste hinzu
                 enemy.handleCollision(projectile, enemyPane, projectilePane);
-
                 enemiesToRemove.add(enemy);
+                increaseScore(10);
                 break;
             }
         }
@@ -445,6 +449,16 @@ public class SpaceInvadersController implements GameController {
      */
     private double calculateDistance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+    private void increaseScore(int points) {
+        score += points;
+        System.out.println("Score: " + score);
+        updateScoreLabel();
+
+    }
+    private void updateScoreLabel() {
+        Platform.runLater(() -> scoreLabel.setText("Score: " + score));
+        // Verwende Platform.runLater, um die Aktualisierung auf dem JavaFX-Thread durchzuführen
     }
 
     /**
