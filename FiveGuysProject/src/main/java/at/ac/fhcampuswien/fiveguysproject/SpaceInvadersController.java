@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fiveguysproject;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -60,12 +61,12 @@ public class SpaceInvadersController implements GameController {
     @FXML
     public Pane enemyPane; // Panes für Feinde
     public Pane projectilePane;// Panes für Projektile
-    private Timeline projectileTimeline; // Timelines für Projektile
-    private Timeline timeline;// Timelines für Spielereignisse
+    protected Timeline projectileTimeline; // Timelines für Projektile
+    protected Timeline timeline;// Timelines für Spielereignisse
     @FXML
     private ImageView pauseButtonImage;
     public static int enemyCount = 0;
-    private int enemyLimit = 10;
+    private int enemyLimit = 20;
     private int health = 3;
     public static int level = 1;
     private double playerX = 0;
@@ -76,6 +77,8 @@ public class SpaceInvadersController implements GameController {
     private double timeBetweenShots = 1 / fireRate;
     public static boolean gamePaused = false;
     private int score = 0;
+    private Timeline enemiesTimeline;
+    private Timeline spawnTimeline;
 
     @FXML
     private Label scoreLabel;
@@ -110,7 +113,13 @@ public class SpaceInvadersController implements GameController {
         Image playImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/play.png")));
         Image pauseImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png")));
         pauseButtonImage.setImage(pauseImage); // Set the initial state to play
-        pauseButtonImage.setOnMouseClicked(event -> pauseGame());
+        pauseButtonImage.setOnMouseClicked(event -> {
+            try {
+                pauseGame();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**
@@ -124,18 +133,15 @@ public class SpaceInvadersController implements GameController {
      */
     public void startGame() {
 
-
         player.setTranslateX(playerX);
         player.setTranslateY(playerY);
         player.setOpacity(1);
-
 
         timeline = new Timeline(new KeyFrame(Duration.millis(16), this::update));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-
-        Timeline enemiesTimeline = new Timeline(new KeyFrame(Duration.millis(50), this::moveEnemies));
+        enemiesTimeline = new Timeline(new KeyFrame(Duration.millis(50), this::moveEnemies));
         enemiesTimeline.setCycleCount(Timeline.INDEFINITE);
         enemiesTimeline.play();
 
@@ -154,7 +160,8 @@ public class SpaceInvadersController implements GameController {
     /**
      * Pausierung des Spiels. Timelines bleiben stehen, Spieler und Gegner können nicht bewegt werden.
      */
-    public void pauseGame() {
+    @FXML
+    public void pauseGame() throws IOException {
         if (gamePaused) {
             resumeGame();
             gamePaused = false;
@@ -176,34 +183,36 @@ public class SpaceInvadersController implements GameController {
     @FXML
     private void restartGame(ActionEvent event) {
 
+        // Spieler zurücksetzen
         playerX = 0;
         playerY = 300;
+        player.setTranslateX(playerX);
+        player.setTranslateY(playerY);
+        player.setOpacity(1);
+
+        // Projektile zurücksetzen
+        projectilePane.getChildren().clear();
 
         // Timelines zurücksetzen
         timeline.stop();
         initializeTimeline();
-        projectileTimeline.stop();
+        timeline.play(); // Timeline wieder starten
 
-        // Spieler zurücksetzen
-        player.setTranslateX(playerX);
-        player.setTranslateY(playerY);
-        player.setOpacity(1);
+        projectileTimeline.stop();
+        projectileTimeline.play(); // Projectile Timeline wieder starten
 
         // Feinde zurücksetzen
         enemiesMap.clear();
         enemyPane.getChildren().clear();
         enemyCount = 0;
 
-        // Projektile zurücksetzen
-        projectilePane.getChildren().clear();
-
         // Score zurücksetzen
         score = 0;
         update();
 
         level = 1;
-
     }
+
 
     /**
      * Fortsetzung des Spiels.
@@ -264,7 +273,6 @@ public class SpaceInvadersController implements GameController {
         enemiesMap.values().removeAll(enemiesToRemove);         // Entfernt die getroffenen Feinde aus der Map
     }
 
-
     /**
      * Spawnt einen einzelnen Feind mit einer zufälligen x-Koordinate innerhalb des angegebenen Bereichs.
      * Berücksichtigt dabei den Spielstand, das aktuelle Level und den Abstand zu anderen Feinden.
@@ -324,7 +332,7 @@ public class SpaceInvadersController implements GameController {
      */
     private void spawnEnemiesAtInterval() {
         double startY = -700;
-        Timeline spawnTimeline = new Timeline(
+        spawnTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.5), e -> spawnSingleEnemy(startY))
         );
         spawnTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -332,11 +340,6 @@ public class SpaceInvadersController implements GameController {
 
         // Pausiert das Feindespawning während des Levelübergangs
     }
-
-    /**
-     * Pausiert das Feindespawning für einen bestimmten Zeitraum und setzt es danach fort.
-     */
-
 
     /**
      * Verringert die Anzahl der verbleibenden Feinde und gibt eine Nachricht aus, wenn alle Feinde besiegt sind.
@@ -348,30 +351,33 @@ public class SpaceInvadersController implements GameController {
      */
     private void moveEnemies(ActionEvent event) {
         Random random = new Random();
+        health = 3;
 
         for (var node : enemyPane.getChildren()) {
             if (node instanceof Enemy) {
                 Enemy enemy = (Enemy) node;
                 double speed = random.nextDouble() * 1 + 0.5;
                 enemy.move(speed);
-                if (enemy.getTranslateY() > playerY - 350) {
-                    if (health == 3) {
-                        heart1.setOpacity(0);
-                        health -= 1;
-                    } else if (health == 2) {
-                        heart2.setOpacity(0);
-                        health -= 1;
-                    } else if (health == 1) {
-                        heart3.setOpacity(0);
-                        health -= 1;
-                        try {
-                            gameOver((Stage) enemyPane.getScene().getWindow());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+
+                if (enemy.getTranslateY() > playerY - 350 && health >= 1) {
+                    switch (health) {
+                        case 3:
+                            heart1.setOpacity(0);
+                            break;
+                        case 2:
+                            heart2.setOpacity(0);
+                            break;
+                        case 1:
+                            heart3.setOpacity(0);
+                            try {
+                                gameOver((Stage) enemyPane.getScene().getWindow());
+                                enemiesTimeline.stop();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            break;
                     }
-
-
+                    health--; // Gesundheitsabnahme innerhalb der if-Anweisung verschieben
                 }
             }
         }
@@ -381,9 +387,8 @@ public class SpaceInvadersController implements GameController {
         // Stop any running timelines or game-related logic
         timeline.stop();
         projectileTimeline.stop();
+        spawnTimeline.stop();
         enemyCount = 0;
-
-
 
         // Load the game over screen
         FXMLLoader gameOverLoader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
@@ -405,6 +410,7 @@ public class SpaceInvadersController implements GameController {
         stage.show();
     }
 
+
     private void loadGameScreen(Stage stage) throws IOException {
         // Load the game screen (replace this with your actual game screen FXML)
         restartGame(new ActionEvent());
@@ -420,10 +426,6 @@ public class SpaceInvadersController implements GameController {
 
         stage.setScene(gameScreenScene);
         stage.setResizable(false);
-        stage.show();
-
-        // Start the game or perform any other necessary actions
-        gameController.startGame();
 
     }
 

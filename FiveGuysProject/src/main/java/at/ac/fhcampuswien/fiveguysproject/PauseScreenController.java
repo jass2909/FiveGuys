@@ -4,29 +4,30 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
-public class PauseScreenController {
+public class PauseScreenController extends SpaceInvadersController {
 
-    @FXML
-    public Button resumeGameButton;
-    public Button quitButton;
-
-    @FXML
-    private Button optionsButton;
-    @FXML
-    private Button backToMenu;
     @FXML
     private Pane starPane;
     private MapController mapController;
+    @FXML
+    private Button resumeButton;
 
     @FXML
     public void initialize() {
-        mapController = new MapController(starPane);  // Initialize the MapController
+        mapController = new MapController(starPane);
     }
 
     @FXML
-    public void resumeGame(ActionEvent event) {
-        System.out.println("Play Game button clicked");
+    private void resumeGame(ActionEvent event) {
+        System.out.println("Resume Game button clicked");
+        timeline.play();
+        projectileTimeline.play();
+    }
+
+    public Button getResumeButton() {
+        return resumeButton;
     }
 
     @FXML
@@ -36,12 +37,8 @@ public class PauseScreenController {
     }
 
     @FXML
-    private void quit(ActionEvent event) {
-        // Code to quit the game
+    private void quitButton(ActionEvent event) {
+        System.out.println("Back to Menu button clicked");
         System.exit(0);
-    }
-
-    public Button getResumeGameButton() {
-        return resumeGameButton;
     }
 }

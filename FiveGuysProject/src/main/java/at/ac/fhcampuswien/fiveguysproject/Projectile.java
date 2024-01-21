@@ -32,6 +32,7 @@ public class Projectile extends ImageView {
         setFitWidth(30);
         setTranslateX(x - 5);
         setTranslateY(y + 240);
+
     }
 
     /**
