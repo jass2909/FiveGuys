@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.fiveguysproject;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -44,6 +43,10 @@ public class SpaceInvadersController implements GameController {
     private Scene gameScreenScene;
 
     private Map<Integer, Enemy> enemiesMap = new HashMap<>(); // Feinde werden in einer Map gespeichert
+
+    public static int getEnemyCount() {
+        return enemyCount;
+    }
 
     public void addEnemy(Enemy enemy) {
         enemiesMap.put(enemy.getEnemyId(), enemy);
@@ -493,7 +496,7 @@ public class SpaceInvadersController implements GameController {
      */
     public void shoot() {
         if (!gamePaused) {
-            Projectile projectile = new Projectile(player.getTranslateX() + 380, player.getTranslateY() - 715);
+            Projectile projectile = new Projectile(player.getTranslateX() + 380, player.getTranslateY() - 715, false);
             projectilePane.getChildren().add(projectile);
 
             Timeline projectileTimeline = new Timeline(

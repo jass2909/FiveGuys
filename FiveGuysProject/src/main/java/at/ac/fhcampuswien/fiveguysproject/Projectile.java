@@ -3,8 +3,6 @@ package at.ac.fhcampuswien.fiveguysproject;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 import java.io.InputStream;
 
@@ -24,9 +22,10 @@ public class Projectile extends ImageView {
      *
      * @param x Die X-Position des Projektils.
      * @param y Die Y-Position des Projektils.
+     * @param b
      */
 
-    public Projectile(double x, double y) {
+    public Projectile(double x, double y, boolean b) {
         super(getProjectileImage());
         setFitHeight(30);
         setFitWidth(30);
@@ -61,6 +60,14 @@ public class Projectile extends ImageView {
             return;
 
         } else setTranslateY(getTranslateY() - PROJECTILE_SPEED);
+
+    }
+
+    public void moveDown() {
+        if (gamePaused){
+            return;
+
+        } else setTranslateY(getTranslateY() + PROJECTILE_SPEED);
 
     }
 
