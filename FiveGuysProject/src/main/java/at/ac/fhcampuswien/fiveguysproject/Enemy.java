@@ -16,7 +16,8 @@ import static at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController.level;
 
 public class Enemy extends ImageView {
 
-    private static final int INITIAL_LIFE = 3;
+    public static  int INITIAL_LIFE = 2;
+    public static  int MORE_LIFE = 3;
     private static int enemyCount = 0;
     private int id;
 
@@ -28,12 +29,23 @@ public class Enemy extends ImageView {
      */
     public Enemy(double x, double y) {
         super(getEnemyImageImage());
-        setFitWidth(50);
-        setFitHeight(50);
-        setTranslateX(x);
-        setTranslateY(y);
-        setUserData(INITIAL_LIFE);
-        id = enemyCount++;
+        if (level==1 || level==2){
+            setFitWidth(50);
+            setFitHeight(50);
+            setTranslateX(x);
+            setTranslateY(y);
+            setUserData(2);
+            id = enemyCount++;
+        }
+        if (level==3){
+            setFitWidth(100);
+            setFitHeight(100);
+            setTranslateX(x);
+            setTranslateY(y);
+            setUserData(4);
+            id = enemyCount++;
+        }
+
     }
 
     /**
@@ -41,12 +53,15 @@ public class Enemy extends ImageView {
      *
      * @return Das Image-Objekt des Feindes.
      */
-    private static Image getEnemyImageImage() {
+    static Image getEnemyImageImage() {
         if (level == 1) {
             InputStream inputStream = ClassLoader.getSystemResourceAsStream("Python.png");
             return new Image(inputStream);
         } else if (level == 2) {
             InputStream inputStream = ClassLoader.getSystemResourceAsStream("Enemy.png");
+            return new Image(inputStream);
+        } else if (level == 3) {
+            InputStream inputStream = ClassLoader.getSystemResourceAsStream("Boss.png");
             return new Image(inputStream);
         }
 
@@ -65,6 +80,7 @@ public class Enemy extends ImageView {
      * speed ist die Geschw. mit der der Feind sich bewegt.
      */
     public void move(double speed) {
+
         if (gamePaused) {
             return;
         } else {
@@ -83,6 +99,6 @@ public class Enemy extends ImageView {
 
 
         projectilePane.getChildren().remove(projectile);
-        setTranslateX(getTranslateX() + 1000);
+
     }
 }
