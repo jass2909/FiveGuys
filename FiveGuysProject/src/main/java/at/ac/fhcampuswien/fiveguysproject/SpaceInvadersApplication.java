@@ -47,6 +47,7 @@ public class SpaceInvadersApplication extends Application {
         startScreenScene.getStylesheets().add(getClass().getResource("css.css").toExternalForm());
 
         StartScreenController startScreenController = startScreenLoader.getController();
+        startScreenController.setSoundController(soundController);
 
 
         // Update the event handling to target the playGameButton specifically
@@ -66,6 +67,7 @@ public class SpaceInvadersApplication extends Application {
             soundController.playBackgroundMusic();
             startScreenController.playGame();
             stage.setScene(gameScene);
+            gameScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         });
 

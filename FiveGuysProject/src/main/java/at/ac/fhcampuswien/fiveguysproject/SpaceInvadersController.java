@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -32,6 +33,12 @@ public class SpaceInvadersController implements GameController {
 
     public ImageView player;
     public HBox livesContainer;
+
+    public Button resumeGameButton;
+    public Button optionsButton;
+    public Button quitButton;
+    public VBox pauseMenu;
+    public Button restartButton;
     private Stage stage;
     private Scene gameScreenScene;
 
@@ -154,9 +161,16 @@ public class SpaceInvadersController implements GameController {
 
         } else {
             pauseButtonImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/play.png"))));
+            pauseMenu.setOpacity(1);
+            pauseMenu.setDisable(false);
             timeline.pause();
             gamePaused = true;
         }
+    }
+    @FXML
+    private void quit(ActionEvent event) {
+        // Code to quit the game
+        System.exit(0);
     }
 
     @FXML
@@ -194,10 +208,13 @@ public class SpaceInvadersController implements GameController {
     /**
      * Fortsetzung des Spiels.
      */
+    @FXML
     private void resumeGame() {
         pauseButtonImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png"))));
         timeline.play();
         projectileTimeline.play();
+        pauseMenu.setOpacity(0);
+        pauseMenu.setDisable(true);
     }
 
     /**
@@ -324,11 +341,7 @@ public class SpaceInvadersController implements GameController {
     /**
      * Verringert die Anzahl der verbleibenden Feinde und gibt eine Nachricht aus, wenn alle Feinde besiegt sind.
      */
-    public static void decreaseEnemyCount() {
-        if (enemyCount == 1) {
-            System.out.println("All enemies dead!!");
-        }
-    }
+
 
     /**
      * Bewegt die Feinde nach unten mit zufälliger Geschwindigkeit.
@@ -368,6 +381,8 @@ public class SpaceInvadersController implements GameController {
         // Stop any running timelines or game-related logic
         timeline.stop();
         projectileTimeline.stop();
+        enemyCount = 0;
+
 
 
         // Load the game over screen

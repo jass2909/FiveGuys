@@ -24,7 +24,7 @@
         </ImageView>
 
         <!-- Hier wird das Label für den Score hinzugefügt -->
-        <HBox alignment="TOP_LEFT" translateY="20" translateX="10">
+        <HBox  translateY="80" translateX="10">
             <Label fx:id="scoreLabel" text="Score: 0" style="-fx-text-fill: white; -fx-font-size: 20;"/>
         </HBox>
 
@@ -53,7 +53,7 @@
         </Button>
 
         <!-- HBox für die Herzen -->
-        <HBox fx:id="livesContainer" alignment="BOTTOM_RIGHT" translateY="-40" translateX="-30" spacing="5">
+        <HBox fx:id="livesContainer" alignment="BOTTOM_RIGHT" translateY="-80" translateX="-30" spacing="5">
             <ImageView fitHeight="40" fitWidth="40" preserveRatio="true" fx:id="heart3">
                 <Image url="@/heartImage.png"/>
             </ImageView>
@@ -64,6 +64,16 @@
                 <Image url="@/heartImage.png"/>
             </ImageView>
         </HBox>
+        <VBox fx:id="pauseMenu" opacity="0" disable="true"  alignment="BOTTOM_CENTER" translateY="-400"  spacing="5">
+            <Button fx:id="resumeGameButton"  layoutX="325.0" layoutY="300.0" onAction="#pauseGame" text="Resume Game"
+                    prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
+            <Button fx:id="optionsButton"  layoutX="325.0" layoutY="360.0"  text="Options"
+                    prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
+            <Button fx:id="quitButton"  layoutX="325.0" layoutY="420.0" onAction="#quit" text="Quit"
+                    prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
+
+        </VBox>
+
 
     </StackPane>
 </VBox>
