@@ -12,9 +12,9 @@
 <VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController">
 
-    <StackPane style="-fx-background-color: black" minHeight="748" minWidth="800">
+    <StackPane style="-fx-background-color: black" minHeight="900" minWidth="800">
 
-        <Pane fx:id="starPane" prefWidth="800" prefHeight="748"/>
+        <Pane fx:id="starPane" prefWidth="800" prefHeight="900"/>
         <StackPane>
         </StackPane>
         <StackPane>
@@ -24,8 +24,13 @@
         </ImageView>
 
 
+        <!-- Hier wird das Label für den High Score hinzugefügt -->
+        <HBox translateY="120" translateX="10">
+            <Label fx:id="waveCounterLabel" text="Wave:" style="-fx-text-fill: white; -fx-font-size: 20;"/>
+        </HBox>
+
         <!-- Hier wird das Label für den Score hinzugefügt -->
-        <HBox  translateY="80" translateX="10">
+        <HBox  translateY="160" translateX="10">
             <Label fx:id="scoreLabel" text="Score: 0" style="-fx-text-fill: white; -fx-font-size: 20;"/>
         </HBox>
 
@@ -36,25 +41,16 @@
 
         <StackPane prefWidth="0" prefHeight="0" style="-fx-background-color: black">
 
-            <Button translateY="-700" translateX="-20" fx:id="pauseButton" onAction="#pauseGame"
+            <Button translateY="-800" translateX="-20" fx:id="pauseButton" onAction="#pauseGame"
                     StackPane.alignment="BOTTOM_RIGHT">
                 <graphic>
                     <ImageView fx:id="pauseButtonImage" fitHeight="30" fitWidth="30" preserveRatio="true"/>
                 </graphic>
             </Button>
         </StackPane>
-        <!-- Restart-Button -->
-        <Button translateY="-650" translateX="-20" fx:id="restartButton" onAction="#restartGame"
-                StackPane.alignment="BOTTOM_RIGHT">
-            <graphic>
-                <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
-                    <Image url="@/restartButton.jpg"/> <!-- Passe den Pfad zum Restart-Button-Bild an -->
-                </ImageView>
-            </graphic>
-        </Button>
 
         <!-- HBox für die Herzen -->
-        <HBox fx:id="livesContainer" alignment="BOTTOM_RIGHT" translateY="-80" translateX="-30" spacing="5">
+        <HBox fx:id="livesContainer" alignment="BOTTOM_RIGHT" translateY="-150" translateX="-30" spacing="5">
             <ImageView fitHeight="40" fitWidth="40" preserveRatio="true" fx:id="heart3">
                 <Image url="@/heartImage.png"/>
             </ImageView>
@@ -65,12 +61,10 @@
                 <Image url="@/heartImage.png"/>
             </ImageView>
         </HBox>
-        <VBox fx:id="pauseMenu" opacity="0" disable="true"  alignment="BOTTOM_CENTER" translateY="-400"  spacing="5">
+        <VBox fx:id="pauseMenu" opacity="0" disable="true"  alignment="BOTTOM_CENTER" translateY="-700"  spacing="5">
             <Button fx:id="resumeGameButton"  layoutX="325.0" layoutY="300.0" onAction="#pauseGame" text="Resume Game"
                     prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
-            <Button fx:id="optionsButton"  layoutX="325.0" layoutY="360.0"  text="Options"
-                    prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
-            <Button fx:id="quitButton"  layoutX="325.0" layoutY="420.0" onAction="#quit" text="Quit"
+            <Button fx:id="quitButton"  layoutX="325.0" layoutY="360.0" onAction="#quit" text="Quit"
                     prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
 
         </VBox>

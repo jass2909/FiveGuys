@@ -3,10 +3,7 @@ package at.ac.fhcampuswien.fiveguysproject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -22,12 +19,15 @@ public class SpaceInvadersApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-
+        // Aufruf der Hintergrundmusik in Hauptmenü
         soundController.playBackgroundMusic();
         soundController.setBackgroundMusicVolume(0.5);
+
+        // Aufruf des Spielfensters in gewünschtem Format.
         FXMLLoader intermediateLoader = new FXMLLoader(getClass().getResource("IntermediateScene.fxml"));
         Scene intermediateScene = new Scene(intermediateLoader.load(), 800, 748, Color.WHITE);
 
+        // Fügt Eventhandler hinzu, der auf Mausclick auf die Intermediate Scene reagiert und die Load Screen Methode aufruft, um Startbildschirm zu laden.
         intermediateScene.setOnMouseClicked((MouseEvent event) -> {
             try {
                 loadStartScreen(stage);
@@ -36,9 +36,9 @@ public class SpaceInvadersApplication extends Application {
             }
         });
 
-        stage.setScene(intermediateScene);
-        stage.setResizable(false);
-        stage.show();
+        stage.setScene(intermediateScene); // Setzt die Szene für das Hauptfenster Stage auf die erstellte Intermediate Scene.
+        stage.setResizable(false); // Fenster kann nicht vergrößert werden.
+        stage.show(); // Zeigt Intermediate Scene an.
     }
 
     private void loadStartScreen(Stage stage) throws IOException {
@@ -50,7 +50,6 @@ public class SpaceInvadersApplication extends Application {
         startScreenController.setSoundController(soundController);
 
 
-        // Update the event handling to target the playGameButton specifically
         startScreenController.playGameButton.setOnAction(event -> {
             FXMLLoader fxmlLoader = new FXMLLoader(SpaceInvadersApplication.class.getResource("hello-view.fxml")); // Laden der FXML-Datei für die Benutzeroberfläche
             Scene gameScene = null; // Erstellen der Szene mit der geladenen Benutzeroberfläche und Hintergrundfarbe

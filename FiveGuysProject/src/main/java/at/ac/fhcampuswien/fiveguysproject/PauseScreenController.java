@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class PauseScreenController extends SpaceInvadersController {
 
@@ -28,12 +27,6 @@ public class PauseScreenController extends SpaceInvadersController {
 
     public Button getResumeButton() {
         return resumeButton;
-    }
-
-    @FXML
-    private void options(ActionEvent event) {
-        // Code to open the options window
-        // You can implement this based on your preferences
     }
 
     @FXML

@@ -13,11 +13,8 @@ import static at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController.level;
 /**
  * Enemy Klasse zur Erstellung der Gegner. Handhabung von Kollisionen und Erstellen von Feind-Objekten.
  */
-
 public class Enemy extends ImageView {
 
-    public static  int INITIAL_LIFE = 2;
-    public static  int MORE_LIFE = 3;
     private static int enemyCount = 0;
     private int id;
 
@@ -29,7 +26,15 @@ public class Enemy extends ImageView {
      */
     public Enemy(double x, double y) {
         super(getEnemyImageImage());
-        if (level==1 || level==2){
+        if (level == 1) {
+            setFitWidth(50);
+            setFitHeight(50);
+            setTranslateX(x);
+            setTranslateY(y);
+            setUserData(1);
+            id = enemyCount++;
+        }
+        if (level == 2) {
             setFitWidth(50);
             setFitHeight(50);
             setTranslateX(x);
@@ -37,7 +42,7 @@ public class Enemy extends ImageView {
             setUserData(2);
             id = enemyCount++;
         }
-        if (level==3){
+        if (level == 3) {
             setFitWidth(100);
             setFitHeight(100);
             setTranslateX(x);

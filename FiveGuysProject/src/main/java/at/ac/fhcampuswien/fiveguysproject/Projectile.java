@@ -14,7 +14,7 @@ import static at.ac.fhcampuswien.fiveguysproject.SpaceInvadersController.gamePau
  * und Überprüfen von Kollisionen mit Feinden.
  */
 public class Projectile extends ImageView {
-    private static final double PROJECTILE_SPEED = 3.0;
+    private static final double PROJECTILE_SPEED = 3;
 
     /**
      * Konstruktor für die Projectile-Klasse. Initialisiert ein neues Projektil
@@ -22,10 +22,8 @@ public class Projectile extends ImageView {
      *
      * @param x Die X-Position des Projektils.
      * @param y Die Y-Position des Projektils.
-     * @param b
      */
-
-    public Projectile(double x, double y, boolean b) {
+    public Projectile(double x, double y) {
         super(getProjectileImage());
         setFitHeight(30);
         setFitWidth(30);
@@ -56,19 +54,9 @@ public class Projectile extends ImageView {
      * Bewegt das Projektil nach oben, wenn das Spiel nicht pausiert ist.
      */
     public void move() {
-        if (gamePaused){
+        if (gamePaused) {
             return;
-
         } else setTranslateY(getTranslateY() - PROJECTILE_SPEED);
-
-    }
-
-    public void moveDown() {
-        if (gamePaused){
-            return;
-
-        } else setTranslateY(getTranslateY() + PROJECTILE_SPEED);
-
     }
 
     /**
@@ -82,7 +70,7 @@ public class Projectile extends ImageView {
     public boolean checkCollision(Enemy enemy, Pane projectilePane) {
         if (getBoundsInParent().intersects(enemy.getBoundsInParent())) {
             projectilePane.getChildren().remove(this);
-            setTranslateX(getTranslateX()+1000); // Verschiebt das Projektil außerhalb der Ansicht.
+            setTranslateX(getTranslateX() + 1000); // Verschiebt das Projektil außerhalb der Ansicht.
             return true;// Kollision erfolgt
 
         }

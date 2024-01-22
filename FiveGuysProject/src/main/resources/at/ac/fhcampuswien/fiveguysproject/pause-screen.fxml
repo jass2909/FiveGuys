@@ -10,9 +10,7 @@
     <children>
         <Button fx:id="resumeGameButton" layoutX="325.0" layoutY="300.0" onAction="#resumeGame" text="Resume Game"
                 prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
-        <Button fx:id="optionsButton" layoutX="325.0" layoutY="360.0" onAction="#options" text="Options"
-                prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
-        <Button fx:id="quitButton" layoutX="325.0" layoutY="420.0" onAction="#quitButton" text="Back to Menu"
+        <Button fx:id="quitButton" layoutX="325.0" layoutY="360.0" onAction="#quitButton" text="Back to Menu"
                 prefWidth="150.0" prefHeight="50.0" styleClass="custom-button"/>
     </children>
 </Pane>
