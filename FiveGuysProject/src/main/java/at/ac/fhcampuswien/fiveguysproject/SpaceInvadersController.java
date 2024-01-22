@@ -35,6 +35,7 @@ import java.util.*;
 public class SpaceInvadersController implements GameController {
 
     public ImageView player;
+    private double enemySpeedMultiplier = 1.0;
     private int health = 3;
     public HBox livesContainer;
     public Button resumeGameButton;
@@ -271,15 +272,12 @@ public class SpaceInvadersController implements GameController {
         for (var entry : enemiesMap.entrySet()) {
             Enemy enemy = entry.getValue();
             if (projectile.checkCollision(enemy, projectilePane)) {
-                System.out.println("Collision detected with enemy " + enemy.getEnemyId());
                 enemy.handleCollision(projectile, enemyPane, projectilePane);
                 int currentLife = (int) enemy.getUserData();
                 currentLife--;
                 enemy.setUserData(currentLife);
-                System.out.println("Enemy " + enemy.getEnemyId() + " life: " + currentLife);
 
                 if (currentLife <= 0) {
-                    System.out.println("Enemy " + enemy.getEnemyId() + " destroyed!");
                     enemiesToRemove.add(enemy);
                     increaseScore(10);
                 }
@@ -317,7 +315,6 @@ public class SpaceInvadersController implements GameController {
                     addEnemy(enemy);
                     enemyPane.getChildren().add(enemy);
                     enemyCount++;
-                    System.out.println(enemyCount);
                 } else {
 
                     nextLevel();
@@ -340,7 +337,6 @@ public class SpaceInvadersController implements GameController {
                     addEnemy(enemy);
                     enemyPane.getChildren().add(enemy);
                     enemyCount++;
-                    System.out.println(enemyCount);
                 } else {
 
                     nextLevel();
@@ -363,14 +359,12 @@ public class SpaceInvadersController implements GameController {
                     addEnemy(enemy);
                     enemyPane.getChildren().add(enemy);
                     enemyCount++;
-                    System.out.println(enemyCount);
                 } else {
 
                     nextLevel();
 
                 }
             }
-            waveCounterLabel.setText("Wave: " + waveCounter);
         }
     }
 
@@ -387,6 +381,11 @@ public class SpaceInvadersController implements GameController {
         // Stop spawning enemies during the level transition
         spawnTimeline.pause();
         levelTransition.play();
+
+        if (level % 3 == 0) {
+            waveCounter++;
+            enemySpeedMultiplier += 2.8;
+        }
     }
 
 
@@ -416,6 +415,7 @@ public class SpaceInvadersController implements GameController {
             if (node instanceof Enemy) {
                 Enemy enemy = (Enemy) node;
                 double speed = random.nextDouble() * 1 + 0.5;
+                speed *= enemySpeedMultiplier;
                 if (level == 3) {
                     speed = speed * 0.5;
                     enemy.move(speed);
@@ -484,6 +484,7 @@ public class SpaceInvadersController implements GameController {
         gameController.setStage(stage); // Pass the stage to the controller
         Scene gameScreenScene = new Scene(gameScreenRoot, 800, 748, Color.BLACK);
         gameScreenScene.setOnKeyPressed(gameController);
+        gameScreenScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         // Set up event handling or any initialization for the game screen if needed
 
@@ -614,7 +615,6 @@ public class SpaceInvadersController implements GameController {
             score += (points + 90);
         }
 
-        System.out.println("Score: " + score);
         update();
     }
 
@@ -625,5 +625,6 @@ public class SpaceInvadersController implements GameController {
     public void update() {
         // Platz für Aktualisierungen des Spielzustands
         Platform.runLater(() -> scoreLabel.setText("Score: " + score));
+        waveCounterLabel.setText("Wave: " + waveCounter);
     }
 }
