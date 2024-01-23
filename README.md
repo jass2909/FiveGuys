@@ -4,6 +4,8 @@ Repository for our Coding Project 2023/24 "FH_Invaders"
 ## Beschreibung
 Hiermit präsentieren wir unsere Umsetzung des Spiels FH Invaders. Als inspiration nutzten wir das allseits bekannte "Space Invaders", welches über Jahrzente den Leuten durch einfaches Gameplay, jedoch viel Spielspaß das Gamen verschönerte.
 
+Designs wurden alle von uns durchdacht und erstellt. 
+
 ## Funktionen
 - Rekreation des Space Invaders Gameplay
 - Steuerung mit WASD
