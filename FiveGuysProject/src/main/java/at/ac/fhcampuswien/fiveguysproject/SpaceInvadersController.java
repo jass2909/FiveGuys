@@ -117,6 +117,29 @@ public class SpaceInvadersController implements GameController {
         });
     }
 
+    private void loadGameScreen(Stage stage) throws IOException {
+        // Load the game screen (replace this with your actual game screen FXML)
+        restartGame(new ActionEvent());
+
+        FXMLLoader gameScreenLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        Parent gameScreenRoot = gameScreenLoader.load();
+        SpaceInvadersController gameController = gameScreenLoader.getController();
+        gameController.setStage(stage); // Pass the stage to the controller
+        Scene gameScreenScene = new Scene(gameScreenRoot, 800, 748, Color.BLACK);
+        gameScreenScene.setOnKeyPressed(gameController);
+        gameScreenScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+
+        // Set up event handling or any initialization for the game screen if needed
+
+        stage.setScene(gameScreenScene);
+        stage.setResizable(false);
+
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     /**
      * Start des Spiels. Aufruf diverser Methoden.
      * Startbutton wird deaktiviert und verborgen
@@ -377,14 +400,19 @@ public class SpaceInvadersController implements GameController {
         enemiesMap.put(enemy.getEnemyId(), enemy);
     }
 
+    /**
+     * Methode um Gegner schneller zu machen, wenn der Level Counter durch 3 teilbar ist. Wave Counter wird nach dem dritten Level erhöht.
+     */
     private void nextLevel() {
         // Stop spawning enemies during the level transition
-        spawnTimeline.pause();
-        levelTransition.play();
+        spawnTimeline.pause(); // Pausiere die Zeitachse für das Spawnen von Gegnern während des Levelübergangs
 
+        levelTransition.play(); // Starte die Animation für den Levelübergang
+
+        // Überprüfe, ob das aktuelle Level durch 3 teilbar ist
         if (level % 3 == 0) {
-            waveCounter++;
-            enemySpeedMultiplier += 2.8;
+            waveCounter++; // Erhöhe den Wellenzähler, wenn das Level durch 3 teilbar ist
+            enemySpeedMultiplier += 2.8; // Erhöhe den Multiplikator für die Geschwindigkeit der Gegner
         }
     }
 
@@ -447,22 +475,22 @@ public class SpaceInvadersController implements GameController {
     }
 
     public void gameOver(Stage stage) throws IOException {
-        // Stop any running timelines or game-related logic
+        // Alle Timelines und logischen Parameter werden gestoppt
         timeline.stop();
         projectileTimeline.stop();
         spawnTimeline.stop();
         enemyCount = 0;
 
-        // Load the game over screen
+        // Laden des Game Over Screens
         FXMLLoader gameOverLoader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
-        GameOverController gameOverController = new GameOverController();  // Assuming you have a GameOverController
+        GameOverController gameOverController = new GameOverController();
         gameOverLoader.setController(gameOverController);
 
         Scene gameOverScene = new Scene(gameOverLoader.load(), 800, 748, Color.WHITE);
 
         gameOverScene.setOnMouseClicked((MouseEvent event) -> {
             try {
-                loadGameScreen(stage);  // Restart the game when clicked
+                loadGameScreen(stage);  // Neustart wenn click
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -471,30 +499,6 @@ public class SpaceInvadersController implements GameController {
         stage.setScene(gameOverScene);
         stage.setResizable(false);
         stage.show();
-    }
-
-
-    private void loadGameScreen(Stage stage) throws IOException {
-        // Load the game screen (replace this with your actual game screen FXML)
-        restartGame(new ActionEvent());
-
-        FXMLLoader gameScreenLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-        Parent gameScreenRoot = gameScreenLoader.load();
-        SpaceInvadersController gameController = gameScreenLoader.getController();
-        gameController.setStage(stage); // Pass the stage to the controller
-        Scene gameScreenScene = new Scene(gameScreenRoot, 800, 748, Color.BLACK);
-        gameScreenScene.setOnKeyPressed(gameController);
-        gameScreenScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-
-        // Set up event handling or any initialization for the game screen if needed
-
-        stage.setScene(gameScreenScene);
-        stage.setResizable(false);
-
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**
@@ -606,6 +610,10 @@ public class SpaceInvadersController implements GameController {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
+    /**
+     * Methode um berschiedenen Gegner unterschiedliche Punkte zu geben.
+     * @param points Verteilte Punkte
+     */
     private void increaseScore(int points) {
         if (level == 1) {
             score += points;
