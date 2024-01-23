@@ -32,6 +32,7 @@ public class SpaceInvadersController implements GameController {
     public ImageView player;
     private double enemySpeedMultiplier = 1.0;
     private int health = 3;
+    private int playerSpeed = 5;
     public HBox livesContainer;
     public Button resumeGameButton;
     public Button quitButton;
@@ -100,7 +101,7 @@ public class SpaceInvadersController implements GameController {
     private void loadImages() {
         Image playImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/play.png")));
         Image pauseImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pause.png")));
-        pauseButtonImage.setImage(pauseImage); // Set the initial state to play
+        pauseButtonImage.setImage(pauseImage);
         pauseButtonImage.setOnMouseClicked(event -> {
             try {
                 pauseGame();
@@ -111,18 +112,16 @@ public class SpaceInvadersController implements GameController {
     }
 
     private void loadGameScreen(Stage stage) throws IOException {
-        // Load the game screen (replace this with your actual game screen FXML)
+
         restartGame(new ActionEvent());
 
         FXMLLoader gameScreenLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
         Parent gameScreenRoot = gameScreenLoader.load();
         SpaceInvadersController gameController = gameScreenLoader.getController();
-        gameController.setStage(stage); // Pass the stage to the controller
+        gameController.setStage(stage);
         Scene gameScreenScene = new Scene(gameScreenRoot, 800, 748, Color.BLACK);
         gameScreenScene.setOnKeyPressed(gameController);
         gameScreenScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-
-        // Set up event handling or any initialization for the game screen if needed
         stage.setScene(gameScreenScene);
         stage.setResizable(false);
 
@@ -134,7 +133,6 @@ public class SpaceInvadersController implements GameController {
 
     /**
      * Start des Spiels. Aufruf diverser Methoden.
-     * Startbutton wird deaktiviert und verborgen
      * Startpos. des Spielers ermittelt.
      * Timelines für Spiel und Feinde gestartet.
      * Überprüfung der Spielfeldgrenzen.
@@ -316,7 +314,7 @@ public class SpaceInvadersController implements GameController {
             if (level <= 3) {
                 if (enemyCount <= enemyLimit) {
                     Random random = new Random();
-                    double randomX; // Zufällige x-Koordinate innerhalb des Bereichs [-380, 380]
+                    double randomX;
 
                     double minDistance = 10.0;
 
@@ -344,7 +342,6 @@ public class SpaceInvadersController implements GameController {
      * Methode um Gegner schneller zu machen, wenn der Level Counter durch 3 teilbar ist. Wave Counter wird nach dem dritten Level erhöht.
      */
     private void nextLevel() {
-        // Stop spawning enemies during the level transition
         spawnTimeline.pause(); // Pausiere die Zeitachse für das Spawnen von Gegnern während des Levelübergangs
 
         levelTransition.play(); // Starte die Animation für den Levelübergang
@@ -354,6 +351,7 @@ public class SpaceInvadersController implements GameController {
             waveCounter++; // Erhöhe den Wellenzähler, wenn das Level durch 3 teilbar ist
             enemySpeedMultiplier += 1.5; // Erhöhe den Multiplikator für die Geschwindigkeit der Gegner
             fireRate+=2;
+            playerSpeed++;
         }
     }
     /**
@@ -464,7 +462,6 @@ public class SpaceInvadersController implements GameController {
                 }
         }
     }
-
     /**
      * Bewegt den Spieler nach links.
      */
@@ -472,14 +469,13 @@ public class SpaceInvadersController implements GameController {
         timeline.stop(); // Stoppt die vorherige Bewegung
         timeline.getKeyFrames().setAll(
                 new KeyFrame(Duration.millis(16), e -> {
-                    playerX -= 5; // Passe die Geschwindigkeit bei Bedarf an
+                    playerX -= playerSpeed; // Passe die Geschwindigkeit bei Bedarf an
                     player.setTranslateX(playerX);
 
                 })
         );
         timeline.play();
     }
-
     /**
      * Bewegt den Spieler nach rechts.
      */
@@ -487,14 +483,13 @@ public class SpaceInvadersController implements GameController {
         timeline.stop(); // Stoppt die vorherige Bewegung
         timeline.getKeyFrames().setAll(
                 new KeyFrame(Duration.millis(16), e -> {
-                    playerX += 5; // Passe die Geschwindigkeit bei Bedarf an
+                    playerX += playerSpeed; // Passe die Geschwindigkeit bei Bedarf an
                     player.setTranslateX(playerX);
 
                 })
         );
         timeline.play();
     }
-
     /**
      * Lässt den Spieler schießen, indem ein neues Projektil erstellt wird.
      */
@@ -513,8 +508,6 @@ public class SpaceInvadersController implements GameController {
             projectileTimeline.play();
         }
     }
-
-
     /**
      * Überprüft, ob der Abstand zu vorhandenen Feinden sicher ist.
      *

@@ -15,6 +15,4 @@ public class IntermediateSceneController {
     public void initialize() {
         mapController = new MapController(starPane);  // Initialize the MapController
     }
-
-
 }

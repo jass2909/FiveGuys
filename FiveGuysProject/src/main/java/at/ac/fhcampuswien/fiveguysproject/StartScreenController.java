@@ -34,11 +34,7 @@ public class StartScreenController {
         mapController = new MapController(starPane);  // Initialize the MapController
 
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            // Adjust the music volume based on the slider value (newValue)
             double volume = newValue.doubleValue();
-            // You can use the 'volume' value to set the volume for your music player
-            // For example, if you are using a MediaPlayer, you can use mediaPlayer.setVolume(volume);
-            // Replace the following line with your actual code to change the music volume
             soundController.setBackgroundMusicVolume(volume);
 
         });
