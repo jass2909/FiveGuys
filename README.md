@@ -26,6 +26,12 @@ Designs wurden alle von uns durchdacht und erstellt.
 - Jacin Ali - Initialarbeit - @Jali04
 - Jasmeet Singh Kubar - Initialarbeit - @jass2909
 
+## Quellen
+- Java Logo: https://www.deviantart.com/panfrieddupa/art/Java-Pixel-Logo-for-Personal-Portfolio-923686077
+- Musik:
+- https://www.youtube.com/watch?v=U0TXIXTzJEY
+- https://www.youtube.com/watch?si=hVpuO2q2Va63G7MP&v=uY7h0k-E_yk&feature=youtu.be
+
   ## Aufklärung
   Zu Beginn unseres Projekts hatten wir noch kein Repository. Dieses wurde etwa eine Woche nach Beginn des Projekts 
   erstellt.    Da wir mit dem erstellten Repo Probleme hatten, wurde dieses gelöscht und ein neues (das Aktuelle) erstellt. 
