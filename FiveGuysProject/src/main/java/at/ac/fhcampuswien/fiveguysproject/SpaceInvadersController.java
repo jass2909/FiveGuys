@@ -21,19 +21,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.scene.image.ImageView;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
-
 /**
  * Die SpaceInvadersController-Klasse steuert das Hauptspielgeschehen des Space Invaders-Spiels.
  * Sie implementiert das GameController-Interface und behandelt Tastatureingaben sowie die Spiellogik.
  */
 public class SpaceInvadersController implements GameController {
-
     public ImageView player;
     private double enemySpeedMultiplier = 1.0;
     private int health = 3;
@@ -52,12 +47,11 @@ public class SpaceInvadersController implements GameController {
     public ImageView heart2;
     public ImageView heart1;
     public Button pauseButton;
-    @FXML
-    private Pane starPane;// Hintergrund-Sterne
     private MapController mapController;
-    @FXML
     public Pane enemyPane; // Panes für Feinde
     public Pane projectilePane;// Panes für Projektile
+    @FXML
+    private Pane starPane;
     protected Timeline projectileTimeline; // Timelines für Projektile
     protected Timeline timeline;// Timelines für Spielereignisse
     @FXML
@@ -68,9 +62,9 @@ public class SpaceInvadersController implements GameController {
     private double playerX = 25;
     private double leftBorder = -380;
     private double rightBorder = 410;
-    private double playerY = 350; // Adjustable fire rate (projectiles per second)
-    private double fireRate = 5; // Two projectiles per second
-    private double timeBetweenShots = 1 / fireRate;
+    private double playerY = 350;
+    private double fireRate = 5; // Five projectiles per second
+    private double timeBetweenShots = 1 / fireRate; // Adjustable fire rate (projectiles per second)
     public static boolean gamePaused = false;
     private int score = 0;
     private Timeline enemiesTimeline;
@@ -92,7 +86,6 @@ public class SpaceInvadersController implements GameController {
         initializeTimeline();
         startGame();
     }
-
     /**
      * Initialisierung der Timeline für Spielupdates.
      */
@@ -130,7 +123,6 @@ public class SpaceInvadersController implements GameController {
         gameScreenScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         // Set up event handling or any initialization for the game screen if needed
-
         stage.setScene(gameScreenScene);
         stage.setResizable(false);
 
@@ -321,7 +313,7 @@ public class SpaceInvadersController implements GameController {
     private void spawnSingleEnemy(double startY) {
 
         if (!gamePaused) {
-            if (level == 1) {
+            if (level <= 3) {
                 if (enemyCount <= enemyLimit) {
                     Random random = new Random();
                     double randomX; // Zufällige x-Koordinate innerhalb des Bereichs [-380, 380]
@@ -339,63 +331,11 @@ public class SpaceInvadersController implements GameController {
                     enemyPane.getChildren().add(enemy);
                     enemyCount++;
                 } else {
-
                     nextLevel();
-
-                }
-            }
-            if (level == 2) {
-                if (enemyCount < enemyLimit) {
-                    Random random = new Random();
-                    double randomX;  // Zufällige x-Koordinate innerhalb des Bereichs [-380, 380]
-
-                    double minDistance = 10.0;
-
-                    do {
-                        // Wählt eine zufällige x-Koordinate, solange der Abstand zu anderen Feinden nicht sicher ist
-                        randomX = random.nextDouble() * (350 * 2) - 0;
-                    } while (!isDistanceSafe(randomX, startY, minDistance));
-
-                    Enemy enemy = new Enemy(randomX, startY); // Erstellt einen neuen Feind und fügt ihn zum Spiel hinzu
-                    addEnemy(enemy);
-                    enemyPane.getChildren().add(enemy);
-                    enemyCount++;
-                } else {
-
-                    nextLevel();
-
-                }
-            }
-            if (level == 3) {
-                if (enemyCount < enemyLimit / 2) {
-                    Random random = new Random();
-                    double randomX;  // Zufällige x-Koordinate innerhalb des Bereichs [-380, 380]
-
-                    double minDistance = 10.0;
-
-                    do {
-                        // Wählt eine zufällige x-Koordinate, solange der Abstand zu anderen Feinden nicht sicher ist
-                        randomX = random.nextDouble() * (350 * 2) - 0;
-                    } while (!isDistanceSafe(randomX, startY, minDistance));
-
-                    Enemy enemy = new Enemy(randomX, startY); // Erstellt einen neuen Feind und fügt ihn zum Spiel hinzu
-                    addEnemy(enemy);
-                    enemyPane.getChildren().add(enemy);
-                    enemyCount++;
-                } else {
-
-                    nextLevel();
-
                 }
             }
         }
     }
-
-
-    public static int getEnemyCount() {
-        return enemyCount;
-    }
-
     public void addEnemy(Enemy enemy) {
         enemiesMap.put(enemy.getEnemyId(), enemy);
     }
@@ -412,11 +352,10 @@ public class SpaceInvadersController implements GameController {
         // Überprüfe, ob das aktuelle Level durch 3 teilbar ist
         if (level % 3 == 0) {
             waveCounter++; // Erhöhe den Wellenzähler, wenn das Level durch 3 teilbar ist
-            enemySpeedMultiplier += 2.8; // Erhöhe den Multiplikator für die Geschwindigkeit der Gegner
+            enemySpeedMultiplier += 1.5; // Erhöhe den Multiplikator für die Geschwindigkeit der Gegner
+            fireRate+=2;
         }
     }
-
-
     /**
      * Startet eine Timeline, die in regelmäßigen Abständen einen einzelnen Feind spawnt.
      * Regelt auch das Pausieren des Feindespawnings während des Levelübergangs.
